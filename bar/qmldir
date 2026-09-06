@@ -1,0 +1,4 @@
+module qs.bar
+singleton Time Time.qml
+Bar Bar.qml
+Clock Clock.qml
