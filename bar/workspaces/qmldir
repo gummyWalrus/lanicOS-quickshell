@@ -1,0 +1,5 @@
+module qs.bar.workspaces
+Workspaces Workspaces.qml
+Workspace Workspace.qml
+singleton Icons Icons.qml
+

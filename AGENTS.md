@@ -19,6 +19,9 @@ We are aware of the following issues:
 
 # Restrictions
 
+Agents :
+1. Do not use background agents as they consume too much tokens and are prone to stop responding
+
 Comments :
 1. Comments are rare, only use them for globally explaining things (eg : at the top of a class)
 2. Comments are not be used to explain a block of code that's small (0-20 lines) or code that can be understood easily by reading
