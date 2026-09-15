@@ -1,0 +1,4 @@
+module qs.settings
+SettingsPanel Panel.qml
+StateButton StateButton.qml
+NetworkButton NetworkButton.qml

@@ -8,6 +8,7 @@ Singleton {
         ListElement { icon: "" }
         ListElement { icon: "󰈹" }
         ListElement { icon: "󰨞" }
+        ListElement { icon: "" }
         ListElement { icon: "󰣇" }
     }
 

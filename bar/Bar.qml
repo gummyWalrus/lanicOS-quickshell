@@ -47,6 +47,21 @@ Scope {
                     id: clock
                     anchors.centerIn: parent
                 }
+
+                SettingsButton {
+                    id: settingsButton
+
+                    anchors {
+                        right: parent.right
+                        verticalCenter: parent.verticalCenter
+                    }
+
+                    Component.onCompleted: console.log("loaded item ", bar.modelData.name)
+                }
+            }
+
+            SettingsPopup {
+                anchorItem: settingsButton
             }
 
             Rectangle {
@@ -59,12 +74,12 @@ Scope {
             }
 
             Rectangle {
-                visible: workspaces.activeItem !== null
+                visible: workspaces.focusedItem !== null
                 anchors.bottom: parent.bottom
                 height: bar.separatorHeight
                 color: Colors.primary
-                x: workspaces.x + (workspaces.activeItem?.x ?? 0)
-                width: workspaces.activeItem?.width ?? 0
+                x: workspaces.x + (workspaces.focusedItem?.x ?? 0)
+                width: workspaces.focusedItem?.width ?? 0
 
                 Behavior on x {
                     NumberAnimation { duration: 150; easing.type: Easing.OutCubic }

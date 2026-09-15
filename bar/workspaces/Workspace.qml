@@ -25,5 +25,4 @@ Item {
         }
     }
 
-    Component.onCompleted: console.log("Loaded ws : ", modelData.id)
 }
