@@ -4,10 +4,14 @@ import qs.fonts
 import qs.config
 
 Rectangle {
+    id: panel
+
     readonly property int padding: 16
 
+    property Component openMenu: null
+
     implicitWidth: Config.settingsPanelWidth
-    implicitHeight: Config.settingsPanelWidth
+    implicitHeight: Config.settingsPanelHeight
     color: Colors.surface
 
     border {
@@ -16,6 +20,8 @@ Rectangle {
     }
 
     Grid {
+        id: grid
+
         anchors {
             top: parent.top
             left: parent.left
@@ -31,7 +37,12 @@ Rectangle {
         Item {
             width: parent.slotWidth
             height: parent.slotHeight
-            WifiButton {}
+
+            WifiButton {
+                id: wifiButton
+                menuOpen: panel.openMenu === wifiButton.menu
+                onMenuToggled: panel.openMenu = panel.openMenu ? null : wifiButton.menu
+            }
         }
             
         WiredButton {}
@@ -39,7 +50,12 @@ Rectangle {
         Item {
             width: parent.slotWidth
             height: parent.slotHeight
-            BluetoothButton {}
+
+            BluetoothButton {
+                id: bluetoothButton
+                menuOpen: panel.openMenu === bluetoothButton.menu
+                onMenuToggled: panel.openMenu = panel.openMenu ? null : bluetoothButton.menu
+            }
         }
     }
 
@@ -51,6 +67,29 @@ Rectangle {
         font {
             family: Fonts.mono
             pixelSize: 16
+        }
+    }
+
+    Rectangle {
+        anchors.fill: parent
+        visible: panel.openMenu !== null
+        color: Colors.scrim
+        opacity: 0.4
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: panel.openMenu = null
+        }
+    }
+
+    Loader {
+        sourceComponent: panel.openMenu
+        width: grid.width
+
+        anchors {
+            top: grid.bottom
+            left: grid.left
+            topMargin: Config.contentMargin
         }
     }
 }

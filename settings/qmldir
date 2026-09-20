@@ -4,3 +4,6 @@ StateButton StateButton.qml
 WifiButton WifiButton.qml
 WiredButton WiredButton.qml
 BluetoothButton BluetoothButton.qml
+WifiMenu WifiMenu.qml
+BluetoothMenu BluetoothMenu.qml
+WifiPasswordDialog WifiPasswordDialog.qml

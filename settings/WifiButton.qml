@@ -1,3 +1,4 @@
+import QtQuick
 import qs.services
 
 StateButton {
@@ -6,4 +7,6 @@ StateButton {
     label: WifiService.label
     icon: WifiService.icon
     activated: WifiService.connected
+
+    menu: Component { WifiMenu {} }
 }

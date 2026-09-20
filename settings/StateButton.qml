@@ -1,6 +1,4 @@
 import QtQuick
-import QtQuick.Controls.Basic
-import Quickshell
 
 import qs.fonts
 import qs.colors
@@ -11,6 +9,10 @@ Rectangle {
     required property bool activated
     required property string label
     required property string icon
+
+    property Component menu: null
+    property bool menuOpen: false
+    signal menuToggled()
 
     readonly property int padding: 12
 
@@ -63,16 +65,40 @@ Rectangle {
                 pixelSize: 16
             }
             color: r.activated ? Colors.primaryText : Colors.primary
-            maxWidth: r.width - r.padding * 2 - icon.implicitWidth - content.spacing
+            maxWidth: r.width - r.padding * 2 - icon.implicitWidth - content.spacing - (menuToggle.visible ? menuToggle.width : 0)
+        }
+    }
+
+    Rectangle {
+        id: menuToggle
+
+        anchors {
+            right: parent.right
+            top: parent.top
+            bottom: parent.bottom
+        }
+        width: 32
+        visible: r.menu !== null
+        color: "transparent"
+
+        Text {
+            anchors.centerIn: parent
+            text: "󰅀"
+            rotation: r.menuOpen ? 180 : 0
+            font {
+                family: Fonts.mono
+                pixelSize: 16
+            }
+            color: r.activated ? Colors.primaryText : Colors.primary
+
+            Behavior on rotation {
+                NumberAnimation { duration: 150 }
+            }
         }
 
-        LazyLoader {
-            active: r.menu != undefined
-            Rectangle {
-                anchors.verticalCenter: parent.verticalCenter
-
-
-            }
+        MouseArea {
+            anchors.fill: parent
+            onClicked: r.menuToggled()
         }
     }
 }
