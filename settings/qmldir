@@ -1,4 +1,6 @@
 module qs.settings
 SettingsPanel Panel.qml
 StateButton StateButton.qml
-NetworkButton NetworkButton.qml
+WifiButton WifiButton.qml
+WiredButton WiredButton.qml
+BluetoothButton BluetoothButton.qml

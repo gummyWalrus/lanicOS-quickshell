@@ -1,3 +1,5 @@
 module qs.services
 
-singleton NetworkService Network.qml
+singleton WifiService WifiService.qml
+singleton WiredService WiredService.qml
+singleton BluetoothService BluetoothService.qml

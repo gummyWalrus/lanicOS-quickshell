@@ -15,14 +15,31 @@ Rectangle {
         width: 3
     }
 
-    Item {
+    Grid {
         anchors {
             top: parent.top
             left: parent.left
-            margins:  10 // Config.contentMargin
+            margins: 10 // Config.contentMargin
         }
+        columns: 2
+        rowSpacing: Config.contentMargin
+        columnSpacing: Config.contentMargin
 
-        NetworkButton {
+        readonly property int slotWidth: (Config.settingsPanelWidth / 2) - Config.contentMargin * 2
+        readonly property int slotHeight: 42
+
+        Item {
+            width: parent.slotWidth
+            height: parent.slotHeight
+            WifiButton {}
+        }
+            
+        WiredButton {}
+        
+        Item {
+            width: parent.slotWidth
+            height: parent.slotHeight
+            BluetoothButton {}
         }
     }
 
