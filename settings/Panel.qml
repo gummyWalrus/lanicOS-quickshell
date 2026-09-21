@@ -1,7 +1,7 @@
 import QtQuick
 import qs.colors
-import qs.fonts
 import qs.config
+import qs.components
 
 Rectangle {
     id: panel
@@ -19,11 +19,21 @@ Rectangle {
         width: 3
     }
 
+    Battery {
+        id: battery
+
+        anchors {
+            top: parent.top
+            left: parent.left
+            margins: 10 // Config.contentMargin
+        }
+    }
+
     Grid {
         id: grid
 
         anchors {
-            top: parent.top
+            top: battery.visible ? battery.bottom : parent.top
             left: parent.left
             margins: 10 // Config.contentMargin
         }
@@ -57,16 +67,35 @@ Rectangle {
                 onMenuToggled: panel.openMenu = panel.openMenu ? null : bluetoothButton.menu
             }
         }
+
+        Item {
+            width: parent.slotWidth
+            height: parent.slotHeight
+
+            PerformanceButton {
+                id: performanceButton
+                menuOpen: panel.openMenu === performanceButton.menu
+                onMenuToggled: panel.openMenu = panel.openMenu ? null : performanceButton.menu
+            }
+        }
     }
 
 
-    Text {
-        anchors.centerIn: parent
-        text: "Settings"
-        color: Colors.primaryText
-        font {
-            family: Fonts.mono
-            pixelSize: 16
+    Column {
+        anchors {
+            top: grid.bottom
+            left: parent.left
+            right: parent.right
+            margins: 10 // Config.contentMargin
+        }
+        spacing: Config.contentMargin
+
+        Brightness {
+            width: parent.width
+        }
+
+        Mixer {
+            width: parent.width
         }
     }
 

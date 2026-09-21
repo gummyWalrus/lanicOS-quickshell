@@ -3,6 +3,7 @@ import QtQuick
 import qs.fonts
 import qs.colors
 import qs.components
+import qs.config
 
 Rectangle {
     id: r
@@ -21,19 +22,16 @@ Rectangle {
         width: 1
     }
 
-    function getBackgroundColor() {
-
+    Behavior on color {
+        ColorAnimation { duration: Config.msAnimationDuration }
     }
 
-    function getBorderColor() {
-
+    color: {
+        if (activated) {
+            return Colors.primary
+        }
+        mouseArea.containsMouse ? Colors.primaryContainer : Colors.surface
     }
-
-    function getTextColor() {
-        // return activated
-    }
-
-    color: activated ? Colors.primary : Colors.surface
 
     Row {
         id: content
@@ -92,13 +90,15 @@ Rectangle {
             color: r.activated ? Colors.primaryText : Colors.primary
 
             Behavior on rotation {
-                NumberAnimation { duration: 150 }
+                NumberAnimation { duration: Config.msAnimationDuration }
             }
         }
-
-        MouseArea {
-            anchors.fill: parent
-            onClicked: r.menuToggled()
-        }
+    }
+    MouseArea {
+        id: mouseArea
+        anchors.fill: parent
+        onClicked: r.menuToggled()
+        hoverEnabled: true
+        cursorShape: Qt.PointingHandCursor
     }
 }

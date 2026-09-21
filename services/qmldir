@@ -3,3 +3,7 @@ module qs.services
 singleton WifiService WifiService.qml
 singleton WiredService WiredService.qml
 singleton BluetoothService BluetoothService.qml
+singleton PowerService PowerService.qml
+singleton BatteryService BatteryService.qml
+singleton MixerService MixerService.qml
+singleton BrightnessService BrightnessService.qml

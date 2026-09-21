@@ -2,6 +2,7 @@ import Quickshell // for PanelWindow
 import QtQuick
 import qs.colors
 import qs.bar.workspaces
+import qs.config
 
 
 Scope {
@@ -82,10 +83,10 @@ Scope {
                 width: workspaces.focusedItem?.width ?? 0
 
                 Behavior on x {
-                    NumberAnimation { duration: 150; easing.type: Easing.OutCubic }
+                    NumberAnimation { duration: Config.msAnimationDuration; easing.type: Easing.OutCubic }
                 }
                 Behavior on width {
-                    NumberAnimation { duration: 150; easing.type: Easing.OutCubic }
+                    NumberAnimation { duration: Config.msAnimationDuration; easing.type: Easing.OutCubic }
                 }
             }
         }

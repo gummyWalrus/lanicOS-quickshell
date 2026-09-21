@@ -1,9 +1,15 @@
 module qs.settings
 SettingsPanel Panel.qml
 StateButton StateButton.qml
+Battery Battery.qml
 WifiButton WifiButton.qml
 WiredButton WiredButton.qml
 BluetoothButton BluetoothButton.qml
+PerformanceButton PerformanceButton.qml
 WifiMenu WifiMenu.qml
 BluetoothMenu BluetoothMenu.qml
+PerformanceMenu PerformanceMenu.qml
 WifiPasswordDialog WifiPasswordDialog.qml
+Brightness Brightness.qml
+Mixer Mixer.qml
+MixerSection MixerSection.qml
