@@ -1,5 +1,3 @@
 module qs.components
 ScrollingText ScrollingText.qml
 ProgressSlider ProgressSlider.qml
-NeonRectangle NeonRectangle.qml
-NeonBorderExample NeonBorderExample.qml
