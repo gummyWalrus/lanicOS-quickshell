@@ -2,7 +2,7 @@ import QtQuick
 import Quickshell.Services.UPower
 import qs.services
 
-StateButton {
+StateButtonNeon {
     anchors.fill: parent
 
     label: PowerService.label

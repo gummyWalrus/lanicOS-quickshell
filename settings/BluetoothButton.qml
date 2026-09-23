@@ -1,7 +1,7 @@
 import QtQuick
 import qs.services
 
-StateButton {
+StateButtonNeon {
     anchors.fill: parent
 
     label: BluetoothService.label

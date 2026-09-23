@@ -29,12 +29,12 @@ Item {
         color: Colors.primary
     }
 
-    ProgressSlider {
+    ProgressSliderNeon {
         anchors {
             verticalCenter: parent.verticalCenter
             left: icon.right
             leftMargin: Config.contentMargin
-            right: level.left
+            right: root.right
             rightMargin: Config.contentMargin
         }
 
@@ -42,20 +42,20 @@ Item {
         onMoved: value => BrightnessService.setBrightness(value)
     }
 
-    Text {
-        id: level
+    // Text {
+    //     id: level
 
-        anchors {
-            verticalCenter: parent.verticalCenter
-            right: parent.right
-        }
-        width: 40
-        text: Math.round(BrightnessService.brightness * 100) + "%"
-        horizontalAlignment: Text.AlignRight
-        font {
-            family: Fonts.mono
-            pixelSize: 12
-        }
-        color: Colors.primary
-    }
+    //     anchors {
+    //         verticalCenter: parent.verticalCenter
+    //         right: parent.right
+    //     }
+    //     width: 40
+    //     text: Math.round(BrightnessService.brightness * 100) + "%"
+    //     horizontalAlignment: Text.AlignRight
+    //     font {
+    //         family: Fonts.mono
+    //         pixelSize: 12
+    //     }
+    //     color: Colors.primary
+    // }
 }

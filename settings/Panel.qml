@@ -3,10 +3,11 @@ import qs.colors
 import qs.config
 import qs.components
 
-Rectangle {
+NeonRectangle {
     id: panel
 
-    readonly property int padding: 16
+    readonly property int xPadding: 10
+    readonly property int topPadding: 10
 
     property Component openMenu: null
 
@@ -15,80 +16,71 @@ Rectangle {
     color: Colors.surface
 
     border {
-        color: Colors.primaryText
-        width: 3
+        color: Colors.primary
+        width: 1
     }
-
-    Battery {
-        id: battery
-
-        anchors {
-            top: parent.top
-            left: parent.left
-            margins: 10 // Config.contentMargin
-        }
-    }
-
-    Grid {
-        id: grid
-
-        anchors {
-            top: battery.visible ? battery.bottom : parent.top
-            left: parent.left
-            margins: 10 // Config.contentMargin
-        }
-        columns: 2
-        rowSpacing: Config.contentMargin
-        columnSpacing: Config.contentMargin
-
-        readonly property int slotWidth: (Config.settingsPanelWidth / 2) - Config.contentMargin * 2
-        readonly property int slotHeight: 42
-
-        Item {
-            width: parent.slotWidth
-            height: parent.slotHeight
-
-            WifiButton {
-                id: wifiButton
-                menuOpen: panel.openMenu === wifiButton.menu
-                onMenuToggled: panel.openMenu = panel.openMenu ? null : wifiButton.menu
-            }
-        }
-            
-        WiredButton {}
-        
-        Item {
-            width: parent.slotWidth
-            height: parent.slotHeight
-
-            BluetoothButton {
-                id: bluetoothButton
-                menuOpen: panel.openMenu === bluetoothButton.menu
-                onMenuToggled: panel.openMenu = panel.openMenu ? null : bluetoothButton.menu
-            }
-        }
-
-        Item {
-            width: parent.slotWidth
-            height: parent.slotHeight
-
-            PerformanceButton {
-                id: performanceButton
-                menuOpen: panel.openMenu === performanceButton.menu
-                onMenuToggled: panel.openMenu = panel.openMenu ? null : performanceButton.menu
-            }
-        }
-    }
-
 
     Column {
+        id: content
+
         anchors {
-            top: grid.bottom
-            left: parent.left
+            fill: parent
             right: parent.right
-            margins: 10 // Config.contentMargin
+            left: parent.left
+            top: parent.top
+            topMargin: panel.topPadding
+            leftMargin: panel.xPadding
+            rightMargin: panel.xPadding
         }
         spacing: Config.contentMargin
+
+        Battery {}
+
+        Grid {
+            id: grid
+
+            columns: 2
+            rowSpacing: Config.contentMargin
+            columnSpacing: Config.contentMargin
+
+            readonly property int slotWidth: (Config.settingsPanelWidth / 2) - Config.contentMargin * 2
+            readonly property int slotHeight: 42
+
+            Item {
+                width: parent.slotWidth
+                height: parent.slotHeight
+
+                WifiButton {
+                    id: wifiButton
+                    menuOpen: panel.openMenu === wifiButton.menu
+                    onMenuToggled: panel.openMenu = panel.openMenu ? null : wifiButton.menu
+                }
+            }
+            
+            WiredButton {}
+        
+            Item {
+                width: parent.slotWidth
+                height: parent.slotHeight
+
+                BluetoothButton {
+                    id: bluetoothButton
+                    menuOpen: panel.openMenu === bluetoothButton.menu
+                    onMenuToggled: panel.openMenu = panel.openMenu ? null : bluetoothButton.menu
+                }
+            }
+
+            Item {
+                width: parent.slotWidth
+                height: parent.slotHeight
+
+                PerformanceButton {
+                    id: performanceButton
+                    menuOpen: panel.openMenu === performanceButton.menu
+                    onMenuToggled: panel.openMenu = panel.openMenu ? null : performanceButton.menu
+                }
+            }
+        }
 
         Brightness {
             width: parent.width
@@ -115,10 +107,7 @@ Rectangle {
         sourceComponent: panel.openMenu
         width: grid.width
 
-        anchors {
-            top: grid.bottom
-            left: grid.left
-            topMargin: Config.contentMargin
-        }
+        x: content.x + grid.x
+        y: content.y + grid.y + grid.height + Config.contentMargin
     }
 }

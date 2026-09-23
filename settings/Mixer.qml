@@ -37,12 +37,12 @@ Column {
             }
         }
 
-        ProgressSlider {
+        ProgressSliderNeon {
             anchors {
                 verticalCenter: parent.verticalCenter
                 left: icon.right
                 leftMargin: Config.contentMargin
-                right: level.left
+                right: parent.right
                 rightMargin: Config.contentMargin
             }
 
@@ -50,34 +50,34 @@ Column {
             onMoved: value => MixerService.setVolume(MixerService.sink, value)
         }
 
-        Text {
-            id: level
+        // Text {
+        //     id: level
 
-            anchors {
-                verticalCenter: parent.verticalCenter
-                right: parent.right
-            }
-            width: 40
-            text: Math.round(MixerService.volume * 100) + "%"
-            horizontalAlignment: Text.AlignRight
-            font {
-                family: Fonts.mono
-                pixelSize: 12
-            }
-            color: Colors.primary
-        }
+        //     anchors {
+        //         verticalCenter: parent.verticalCenter
+        //         right: parent.right
+        //     }
+        //     width: 40
+        //     text: Math.round(MixerService.volume * 100) + "%"
+        //     horizontalAlignment: Text.AlignRight
+        //     font {
+        //         family: Fonts.mono
+        //         pixelSize: 12
+        //     }
+        //     color: Colors.primary
+        // }
     }
 
-    MixerSection {
-        width: parent.width
-        title: "Devices"
-        nodes: MixerService.devices
-        selectable: true
-    }
+    // MixerSection {
+    //     width: parent.width
+    //     title: "Devices"
+    //     nodes: MixerService.devices
+    //     selectable: true
+    // }
 
-    MixerSection {
-        width: parent.width
-        title: "Applications"
-        nodes: MixerService.applications
-    }
+    // MixerSection {
+    //     width: parent.width
+    //     title: "Applications"
+    //     nodes: MixerService.applications
+    // }
 }
