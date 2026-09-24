@@ -2,10 +2,11 @@ pragma Singleton
 
 import Quickshell
 import Quickshell.Io
+import QtQuick
 
 import qs.config
 
-// Backlight level read from sysfs and written through brightnessctl.
+// Backlight level read from sysfs, refreshed by a udev monitor, and written through brightnessctl.
 Singleton {
     id: root
 
@@ -34,12 +35,22 @@ Singleton {
     FileView {
         id: currentFile
         path: root.devicePath + "/brightness"
-        watchChanges: true
     }
 
     FileView {
         id: maxFile
         path: root.devicePath + "/max_brightness"
+    }
+
+    Process {
+        running: true
+        command: ["udevadm", "monitor", "--udev", "--subsystem-match=backlight"]
+        stdout: SplitParser {
+            onRead: line => {
+                if (line.includes("(backlight)"))
+                    currentFile.reload()
+            }
+        }
     }
 
     Process {
