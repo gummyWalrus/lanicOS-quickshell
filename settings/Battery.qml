@@ -25,7 +25,7 @@ Rectangle {
     visible: BatteryService.available
     implicitWidth: row.implicitWidth + (blinking ? radius * 2 : 0)
     implicitHeight: row.implicitHeight
-    radius: 4
+    radius: 0
     color: blinking ? mix(Colors.error, Colors.surface, steppedPhase) : "transparent"
 
     Row {
