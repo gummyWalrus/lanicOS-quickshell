@@ -18,14 +18,14 @@ Item {
         id: content
 
         anchors.centerIn: parent
-        spacing: 8
+        spacing: 12
 
         TextNeon {
             anchors.verticalCenter: parent.verticalCenter
             color: Colors.primary
             font {
                 pixelSize: 16
-                family: Fonts.mono
+                family: Fonts.icon
             }
 
             text: WifiService.icon
@@ -35,6 +35,7 @@ Item {
         }
 
         Battery {
+            hovered: button.containsMouse
             anchors.verticalCenter: parent.verticalCenter
         }
     }

@@ -43,7 +43,7 @@ Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             text: BatteryService.icon
             font {
-                family: Fonts.mono
+                family: Fonts.icon
                 pixelSize: 20
             }
             color: root.foreground

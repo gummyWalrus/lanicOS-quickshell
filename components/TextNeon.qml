@@ -13,6 +13,7 @@ Text {
 
     property bool animated: false
     property real pulseMin: 0.35
+    property real pulseMax: 1.0
     property int pulseDuration: 1600
 
     // Multiplied into every copy's opacity, driven by the pulse animation.
@@ -59,7 +60,7 @@ Text {
         NumberAnimation {
             target: root
             property: "pulse"
-            from: 1.0
+            from: root.pulseMax
             to: root.pulseMin
             duration: root.pulseDuration / 2
             easing.type: Easing.InOutSine
@@ -68,7 +69,7 @@ Text {
             target: root
             property: "pulse"
             from: root.pulseMin
-            to: 1.0
+            to: root.pulseMax
             duration: root.pulseDuration / 2
             easing.type: Easing.InOutSine
         }
