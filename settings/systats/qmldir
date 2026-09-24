@@ -1,0 +1,4 @@
+SysStats SysStats.qml
+CPUBean CPUBean.qml
+MemoryBean MemoryBean.qml
+TemperatureBean TemperatureBean.qml

@@ -7,6 +7,13 @@ import Quickshell.Services.UPower
 Singleton {
     readonly property var icons: ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
     readonly property var chargingIcons: ["󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂅"]
+    readonly property string criticalIcon: "󱃍"
+    readonly property string pluggedIcon: "󱠴"
+    readonly property string fullIcon: "󱈏"
+
+    // Percent thresholds, same as the waybar battery states.
+    readonly property int goodThreshold: 95
+    readonly property int criticalThreshold: 15
 
     // Indexed by UPowerDeviceState::Enum
     readonly property var stateLabels: ["Unknown", "Charging", "Discharging", "Empty", "Fully charged", "Pending charge", "Pending discharge"]
@@ -21,7 +28,22 @@ Singleton {
     readonly property bool charging: !!device && device.state === UPowerDeviceState.Charging
     readonly property string stateLabel: device ? stateLabels[device.state] : ""
 
-    readonly property string icon: glyph(charging ? chargingIcons : icons)
+    readonly property bool full: !!device && device.state === UPowerDeviceState.FullyCharged
+    readonly property bool plugged: available && !UPower.onBattery && !charging && !full
+    readonly property bool good: level >= goodThreshold
+    readonly property bool critical: level <= criticalThreshold && !charging && !plugged && !full
+
+    readonly property string icon: {
+        if (full)
+            return fullIcon
+        if (charging)
+            return glyph(chargingIcons)
+        if (plugged)
+            return pluggedIcon
+        if (critical)
+            return criticalIcon
+        return glyph(icons)
+    }
 
     function glyph(list) {
         const index = Math.max(0, Math.min(list.length - 1, Math.round(charge * (list.length - 1))))

@@ -14,3 +14,4 @@ Brightness Brightness.qml
 Mixer Mixer.qml
 MixerSection MixerSection.qml
 StateButtonNeon StateButtonNeon.qml
+CPU CPU.qml

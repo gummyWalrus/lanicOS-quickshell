@@ -5,3 +5,5 @@ ProgressSliderNeon ProgressSliderNeon.qml
 NeonRectangle NeonRectangle.qml
 TextNeon TextNeon.qml
 ScrollingTextNeon ScrollingTextNeon.qml
+NeonBean NeonBean.qml
+NeonBeanFilled NeonBeanFilled.qml

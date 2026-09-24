@@ -2,6 +2,7 @@ import QtQuick
 import qs.colors
 import qs.config
 import qs.components
+import qs.settings.systats
 
 NeonRectangle {
     id: panel
@@ -56,9 +57,9 @@ NeonRectangle {
                     onMenuToggled: panel.openMenu = panel.openMenu ? null : wifiButton.menu
                 }
             }
-            
+
             WiredButton {}
-        
+
             Item {
                 width: parent.slotWidth
                 height: parent.slotHeight
@@ -100,6 +101,15 @@ NeonRectangle {
         MouseArea {
             anchors.fill: parent
             onClicked: panel.openMenu = null
+        }
+    }
+
+    SysStats {
+        anchors {
+            bottom: parent.bottom
+            bottomMargin: panel.topPadding
+            left: parent.left
+            leftMargin: panel.xPadding
         }
     }
 

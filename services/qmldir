@@ -7,3 +7,8 @@ singleton PowerService PowerService.qml
 singleton BatteryService BatteryService.qml
 singleton MixerService MixerService.qml
 singleton BrightnessService BrightnessService.qml
+singleton SysinfoService SysinfoService.qml
+singleton MemoryService MemoryService.qml
+singleton CPUService CPUService.qml
+singleton DiskService DiskService.qml
+singleton TemperatureService TemperatureService.qml
