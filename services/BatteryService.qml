@@ -3,6 +3,8 @@ pragma Singleton
 import Quickshell
 import Quickshell.Services.UPower
 
+import qs.config
+
 // Wraps UPower's composite display device: whole-system battery state.
 Singleton {
     readonly property var icons: ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
@@ -11,9 +13,8 @@ Singleton {
     readonly property string pluggedIcon: "󱠴"
     readonly property string fullIcon: "󱈏"
 
-    // Percent thresholds, same as the waybar battery states.
-    readonly property int goodThreshold: 95
-    readonly property int criticalThreshold: 15
+    readonly property int goodThreshold: Config.batteryGoodThreshold
+    readonly property int criticalThreshold: Config.batteryCriticalThreshold
 
     // Indexed by UPowerDeviceState::Enum
     readonly property var stateLabels: ["Unknown", "Charging", "Discharging", "Empty", "Fully charged", "Pending charge", "Pending discharge"]

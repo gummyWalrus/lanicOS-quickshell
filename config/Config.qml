@@ -21,6 +21,15 @@ Singleton {
     // Network properties
     readonly property string defaultNetworkDeviceType: "Wifi"
 
+    // Battery percent thresholds, same as the waybar battery states
+    readonly property int batteryGoodThreshold: 95
+    readonly property int batteryCriticalThreshold: 15
+
+    // System stats alert thresholds, usage as a 0-1 fraction and temperature in °C
+    readonly property real cpuUsageAlertThreshold: 0.95
+    readonly property real memoryUsageAlertThreshold: 0.95
+    readonly property real temperatureAlertThreshold: 80
+
     // Backlight device under /sys/class/backlight
     readonly property string backlightDevice: "intel_backlight"
 }

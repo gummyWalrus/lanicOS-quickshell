@@ -1,9 +1,15 @@
 import QtQuick
 
+import qs.colors
 import qs.components
+import qs.config
 import qs.services
 
 NeonBeanFilled {
+    readonly property bool alert: MemoryService.usage > Config.memoryUsageAlertThreshold
+
+    color: alert ? Colors.error : Colors.primary
+    textColor: alert ? Colors.errorText : Colors.primaryText
     icon: ""
     text: MemoryService.usedFormatted
     fontSize: 16
