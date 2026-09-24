@@ -1,6 +1,8 @@
 import QtQuick
 import qs.colors
 import qs.fonts
+import qs.components
+import qs.services
 
 Item {
     id: root
@@ -9,16 +11,31 @@ Item {
 
     readonly property int padding: 16
 
-    implicitWidth: label.implicitWidth + padding * 2
-    implicitHeight: label.implicitHeight
+    implicitWidth: content.implicitWidth + padding * 2
+    implicitHeight: content.implicitHeight
 
-    Text {
-        id: label
-        text: "click"
-        color: Colors.primary
-        font {
-            pixelSize: 16
-            family: Fonts.mono
+    Row {
+        id: content
+
+        anchors.centerIn: parent
+        spacing: 8
+
+        TextNeon {
+            anchors.verticalCenter: parent.verticalCenter
+            color: Colors.primary
+            font {
+                pixelSize: 16
+                family: Fonts.mono
+            }
+
+            text: WifiService.icon
+
+            glowRadius: button.containsMouse ? 1 : 0
+            animated: button.containsMouse
+        }
+
+        Battery {
+            anchors.verticalCenter: parent.verticalCenter
         }
     }
 
@@ -26,5 +43,6 @@ Item {
         id: button
         anchors.fill: parent
         onClicked: root.showSettings = !root.showSettings
+        hoverEnabled: true
     }
 }
