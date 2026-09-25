@@ -42,7 +42,16 @@ Rectangle {
 
             width: list.width
             height: 32
-            color: row.modelData.connected ? Colors.primary : "transparent"
+            color: {
+                if (row.modelData.connected) {
+                    return Colors.primary
+                }
+                return mouseArea.containsMouse ? Colors.primaryContainer : "transparent"
+            }
+
+            Behavior on color {
+                ColorAnimation { duration: Config.msAnimationDuration }
+            }
 
             Row {
                 anchors {
@@ -101,8 +110,11 @@ Rectangle {
             }
 
             MouseArea {
+                id: mouseArea
                 anchors.fill: parent
                 onClicked: WifiService.requestConnect(row.modelData)
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
             }
         }
     }

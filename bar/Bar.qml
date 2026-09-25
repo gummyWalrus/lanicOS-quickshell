@@ -49,15 +49,49 @@ Scope {
                     anchors.centerIn: parent
                 }
 
+                KeyboardLayout {
+                    anchors {
+                        right: settingsSeparator.left
+                        verticalCenter: parent.verticalCenter
+                    }
+                }
+
+                Separator {
+                    id: settingsSeparator
+
+                    anchors {
+                        right: settingsButton.left
+                        verticalCenter: parent.verticalCenter
+                    }
+                }
+
                 SettingsButton {
                     id: settingsButton
+
+                    anchors {
+                        right: shutdownSeparator.left
+                        verticalCenter: parent.verticalCenter
+                    }
+
+                    Component.onCompleted: console.log("loaded item ", bar.modelData.name)
+                }
+
+                Separator {
+                    id: shutdownSeparator
+
+                    anchors {
+                        right: shutdownButton.left
+                        verticalCenter: parent.verticalCenter
+                    }
+                }
+
+                ShutdownButton {
+                    id: shutdownButton
 
                     anchors {
                         right: parent.right
                         verticalCenter: parent.verticalCenter
                     }
-
-                    Component.onCompleted: console.log("loaded item ", bar.modelData.name)
                 }
             }
 

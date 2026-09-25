@@ -6,3 +6,6 @@ SettingsButton SettingsButton.qml
 SettingsPopup SettingsPopup.qml
 
 Battery Battery.qml
+Separator Separator.qml
+KeyboardLayout KeyboardLayout.qml
+ShutdownButton ShutdownButton.qml

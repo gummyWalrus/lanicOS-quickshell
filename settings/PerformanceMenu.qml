@@ -36,7 +36,16 @@ Rectangle {
 
             width: list.width
             height: 32
-            color: row.selected ? Colors.primary : "transparent"
+            color: {
+                if (row.selected) {
+                    return Colors.primary
+                }
+                return mouseArea.containsMouse ? Colors.primaryContainer : "transparent"
+            }
+
+            Behavior on color {
+                ColorAnimation { duration: Config.msAnimationDuration }
+            }
 
             Row {
                 anchors {
@@ -84,8 +93,11 @@ Rectangle {
             }
 
             MouseArea {
+                id: mouseArea
                 anchors.fill: parent
                 onClicked: PowerService.setProfile(row.modelData)
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
             }
         }
     }

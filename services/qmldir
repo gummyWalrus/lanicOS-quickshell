@@ -12,3 +12,5 @@ singleton MemoryService MemoryService.qml
 singleton CPUService CPUService.qml
 singleton DiskService DiskService.qml
 singleton TemperatureService TemperatureService.qml
+singleton KeyboardService KeyboardService.qml
+singleton ShutdownService ShutdownService.qml
