@@ -2,7 +2,8 @@ pragma Singleton
 
 import Quickshell
 
-// Session and power actions, same commands and order as the waybar custom/power menu.
+// Session and power actions, same order as the waybar custom/power menu.
+// hyprshutdown closes apps and exits Hyprland before running the -p command.
 Singleton {
     id: root
 
@@ -10,11 +11,12 @@ Singleton {
 
     // separatorBefore draws a divider above the entry, like the waybar GtkSeparatorMenuItem.
     readonly property var actions: [
-        { id: "lock", label: "Lock", icon: "󰒲", command: "loginctl lock-session", separatorBefore: false },
+        { id: "lock", label: "Lock", icon: "", command: "loginctl lock-session", separatorBefore: false },
         { id: "suspend", label: "Suspend", icon: "", command: "systemctl suspend", separatorBefore: false },
         { id: "hibernate", label: "Hibernate", icon: "󰒲", command: "systemctl hibernate", separatorBefore: false },
-        { id: "shutdown", label: "Shutdown", icon: "⏻", command: "hyprshutdown --no-exit && sleep 2 && shutdown now", separatorBefore: false },
-        { id: "reboot", label: "Reboot", icon: "", command: "hyprshutdown --no-exit && sleep 2 && reboot", separatorBefore: true }
+        { id: "shutdown", label: "Shutdown", icon: "⏻", command: "hyprshutdown -p 'systemctl poweroff'", separatorBefore: false },
+        { id: "logout", label: "Logout", icon: "󰍃", command: "hyprshutdown -t 'Logging out...'", separatorBefore: true },
+        { id: "reboot", label: "Reboot", icon: "", command: "hyprshutdown -t 'Rebooting...' -p 'systemctl reboot'", separatorBefore: false }
     ]
 
     function run(id) {
@@ -27,5 +29,6 @@ Singleton {
     function suspend() { run("suspend") }
     function hibernate() { run("hibernate") }
     function shutdown() { run("shutdown") }
+    function logout() { run("logout") }
     function reboot() { run("reboot") }
 }
