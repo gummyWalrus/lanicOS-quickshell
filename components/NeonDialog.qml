@@ -95,56 +95,25 @@ PanelWindow {
                 spacing: Config.contentMargin
                 
                 visible: dialog.showButtons
-
-                NeonRectangle {
-                    implicitWidth: cancelLabel.implicitWidth + 32
+                
+                NeonButton {
                     implicitHeight: 30
-                    color: mouseArea.containsMouse ? Colors.primaryText : Colors.surface
 
-                    border {
-                        color: Colors.primary
-                        width: 1
-                    }
+                    onClicked: dialog.reject()
 
-                    Text {
-                        id: cancelLabel
-                        anchors.centerIn: parent
-                        text: "Cancel"
-                        color: Colors.primary
-                        font {
-                            family: Fonts.mono
-                            pixelSize: 14
-                        }
-                    }
-
-                    MouseArea {
-                        id: mouseArea
-                        anchors.fill: parent
-                        onClicked: dialog.reject()
-                        hoverEnabled: true
-                    }
+                    text: "Cancel"
                 }
 
-                Rectangle {
-                    implicitWidth: okLabel.implicitWidth + 32
+                NeonButton {
                     implicitHeight: 30
-                    color: Colors.primary
 
-                    Text {
-                        id: okLabel
-                        anchors.centerIn: parent
-                        text: "OK"
-                        color: Colors.primaryText
-                        font {
-                            family: Fonts.mono
-                            pixelSize: 14
-                        }
-                    }
+                    bgColor: Colors.primary
+                    hoverColor: Colors.primary
+                    textColor: Colors.primaryText
 
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: dialog.accept()
-                    }
+                    onClicked: dialog.accept()
+
+                    text: "OK"
                 }
             }
         }
