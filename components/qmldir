@@ -13,3 +13,5 @@ ProgressSliderNeon ProgressSliderNeon.qml
 NeonRectangle NeonRectangle.qml
 
 NeonButton NeonButton.qml
+
+NeonMenuItem NeonMenuItem.qml

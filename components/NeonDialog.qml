@@ -6,7 +6,6 @@ import Quickshell.Wayland
 
 import qs.colors
 import qs.config
-import qs.fonts
 import qs.components
 
 // Screen centered modal
