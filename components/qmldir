@@ -7,3 +7,5 @@ TextNeon TextNeon.qml
 ScrollingTextNeon ScrollingTextNeon.qml
 NeonBean NeonBean.qml
 NeonBeanFilled NeonBeanFilled.qml
+
+NeonDialog NeonDialog.qml
