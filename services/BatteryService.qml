@@ -8,7 +8,7 @@ import qs.config
 // Wraps UPower's composite display device: whole-system battery state.
 Singleton {
     readonly property var icons: ["󰂎", "󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
-    readonly property var chargingIcons: ["󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂅"]
+    readonly property var chargingIcons: ["󰢟","󰢜", "󰂆", "󰂇", "󰂈", "󰢝", "󰂉", "󰢞", "󰂊", "󰂋", "󰂅"]
     readonly property string criticalIcon: "󱃍"
     readonly property string pluggedIcon: "󱠴"
     readonly property string fullIcon: "󱈏"
