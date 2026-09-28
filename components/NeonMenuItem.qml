@@ -89,7 +89,7 @@ NeonRectangle {
             family: Fonts.mono
             pixelSize: 14
         }
-        color: r.colors.textSelected
+        color: r.selected ? r.colors.textSelected : r.colors.text
     }
 
     MouseArea {

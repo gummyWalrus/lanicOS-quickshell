@@ -3,15 +3,15 @@ import Quickshell.Networking
 
 import qs.colors
 import qs.config
-import qs.fonts
 import qs.services
+import qs.components
 
 // Wifi network picker. Scanning runs only while this is loaded.
 Rectangle {
     id: root
 
     implicitHeight: Math.min(list.contentHeight + Config.contentMargin * 2, 240)
-    color: Colors.surfaceContainerHigh
+    color: Colors.surface
 
     border {
         color: Colors.primary
@@ -30,92 +30,26 @@ Rectangle {
         anchors.fill: parent
         anchors.margins: Config.contentMargin
         clip: true
-        spacing: 2
+        spacing: Config.contentMargin
         model: WifiService.device ? WifiService.device.networks : null
-
-        delegate: Rectangle {
+        
+        
+        delegate: NeonMenuItem {
             id: row
 
             required property WifiNetwork modelData
 
             readonly property var iconList: WifiService.icons[WifiService.icons.length - 1]
 
-            width: list.width
-            height: 32
-            color: {
-                if (row.modelData.connected) {
-                    return Colors.primary
-                }
-                return mouseArea.containsMouse ? Colors.primaryContainer : "transparent"
-            }
+            selected: row.modelData.connected
+            
+            onClicked: WifiService.requestConnect(row.modelData)
+            
+            readonly property string signalStrengthIcon: row.iconList[Math.max(0, Math.min(row.iconList.length - 1, Math.round(row.modelData.signalStrength * row.iconList.length)))]
 
-            Behavior on color {
-                ColorAnimation { duration: Config.msAnimationDuration }
-            }
-
-            Row {
-                anchors {
-                    verticalCenter: parent.verticalCenter
-                    left: parent.left
-                    leftMargin: Config.contentMargin
-                }
-                spacing: 8
-
-                Text {
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: row.iconList[Math.max(0, Math.min(row.iconList.length - 1, Math.round(row.modelData.signalStrength * row.iconList.length)))]
-                    font {
-                        family: Fonts.mono
-                        pixelSize: 16
-                    }
-                    color: row.modelData.connected ? Colors.primaryText : Colors.primary
-                }
-
-                Text {
-                    anchors.verticalCenter: parent.verticalCenter
-                    visible: row.modelData.security !== WifiSecurityType.Open
-                    text: "󰌾"
-                    font {
-                        family: Fonts.mono
-                        pixelSize: 12
-                    }
-                    color: row.modelData.connected ? Colors.primaryText : Colors.primary
-                }
-
-                Text {
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: row.modelData.name
-                    font {
-                        family: Fonts.mono
-                        pixelSize: 14
-                        bold: row.modelData.connected
-                    }
-                    color: row.modelData.connected ? Colors.primaryText : Colors.primary
-                }
-            }
-
-            Text {
-                anchors {
-                    verticalCenter: parent.verticalCenter
-                    right: parent.right
-                    rightMargin: Config.contentMargin
-                }
-                visible: row.modelData.stateChanging
-                text: "󰔟"
-                font {
-                    family: Fonts.mono
-                    pixelSize: 14
-                }
-                color: row.modelData.connected ? Colors.primaryText : Colors.primary
-            }
-
-            MouseArea {
-                id: mouseArea
-                anchors.fill: parent
-                onClicked: WifiService.requestConnect(row.modelData)
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-            }
+            leftIcons: signalStrengthIcon + row.modelData.security !== WifiSecurityType.Open ? " 󰌾" : ""
+            labelText: row.modelData.name
+            rightIcons: row.modelData.stateChanging ? "󰔟" : ""
         }
     }
 }

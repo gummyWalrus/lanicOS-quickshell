@@ -3,15 +3,15 @@ import Quickshell.Bluetooth
 
 import qs.colors
 import qs.config
-import qs.fonts
 import qs.services
+import qs.components
 
 // Bluetooth device picker. Discovery runs only while this is loaded.
 Rectangle {
     id: root
 
     implicitHeight: Math.min(list.contentHeight + Config.contentMargin * 2, 240)
-    color: Colors.surfaceContainerHigh
+    color: Colors.surface
 
     border {
         color: Colors.primary
@@ -30,106 +30,134 @@ Rectangle {
         anchors.fill: parent
         anchors.margins: Config.contentMargin
         clip: true
-        spacing: 2
+        spacing: Config.contentMargin
         model: Bluetooth.devices
 
-        delegate: Rectangle {
+        delegate: NeonMenuItem {
             id: row
-
             required property BluetoothDevice modelData
 
-            width: list.width
-            height: 32
-            color: {
+            function buildLeftIcons() {
                 if (row.modelData.connected) {
-                    return Colors.primary
+                    return "󰂱"
                 }
-                return mouseArea.containsMouse ? Colors.primaryContainer : "transparent"
+                if (!row.modelData.paired) {
+                    return "󰌾"
+                }
+                return ""
             }
 
-            Behavior on color {
-                ColorAnimation { duration: Config.msAnimationDuration }
-            }
+            selected: row.modelData.connected
 
-            Row {
-                anchors {
-                    verticalCenter: parent.verticalCenter
-                    left: parent.left
-                    leftMargin: Config.contentMargin
-                }
-                spacing: 8
+            onClicked: BluetoothService.requestConnect(row.modelData)
 
-                Text {
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: "󰂱"
-                    font {
-                        family: Fonts.mono
-                        pixelSize: 16
-                    }
-                    color: row.modelData.connected ? Colors.primaryText : Colors.primary
-                }
+            readonly property bool busy: row.modelData.pairing
+            || row.modelData.state === BluetoothDeviceState.Connecting
+            || row.modelData.state === BluetoothDeviceState.Disconnecting
+            rightIcons: (row.modelData.batteryAvailable ? BluetoothService.batteryGlyph(row.modelData.battery) : "")
+            + (busy ? "󰔟" : "")
 
-                Text {
-                    anchors.verticalCenter: parent.verticalCenter
-                    visible: !row.modelData.paired
-                    text: "󰌾"
-                    font {
-                        family: Fonts.mono
-                        pixelSize: 12
-                    }
-                    color: row.modelData.connected ? Colors.primaryText : Colors.primary
-                }
-
-                Text {
-                    anchors.verticalCenter: parent.verticalCenter
-                    text: row.modelData.name || row.modelData.deviceName
-                    font {
-                        family: Fonts.mono
-                        pixelSize: 14
-                        bold: row.modelData.connected
-                    }
-                    color: row.modelData.connected ? Colors.primaryText : Colors.primary
-                }
-            }
-
-            Row {
-                anchors {
-                    verticalCenter: parent.verticalCenter
-                    right: parent.right
-                    rightMargin: Config.contentMargin
-                }
-                spacing: 8
-
-                Text {
-                    anchors.verticalCenter: parent.verticalCenter
-                    visible: row.modelData.batteryAvailable
-                    text: BluetoothService.batteryGlyph(row.modelData.battery)
-                    font {
-                        family: Fonts.mono
-                        pixelSize: 14
-                    }
-                    color: row.modelData.connected ? Colors.primaryText : Colors.primary
-                }
-
-                Text {
-                    anchors.verticalCenter: parent.verticalCenter
-                    visible: row.modelData.pairing || row.modelData.state === BluetoothDeviceState.Connecting || row.modelData.state === BluetoothDeviceState.Disconnecting
-                    text: "󰔟"
-                    font {
-                        family: Fonts.mono
-                        pixelSize: 14
-                    }
-                    color: row.modelData.connected ? Colors.primaryText : Colors.primary
-                }
-            }
-
-            MouseArea {
-                id: mouseArea
-                anchors.fill: parent
-                onClicked: BluetoothService.requestConnect(row.modelData)
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-            }
+            leftIcons: row.modelData.connected ? "󰂱" : !row.modelData.paired ? "󰌾" : ""
+            labelText: row.modelData.name || row.modelData.deviceName
         }
+
+        // delegate: Rectangle {
+        //     id: row
+
+        //     required property BluetoothDevice modelData
+
+        //     width: list.width
+        //     height: 32
+        //     color: {
+        //         if (row.modelData.connected) {
+        //             return Colors.primary
+        //         }
+        //         return mouseArea.containsMouse ? Colors.primaryContainer : "transparent"
+        //     }
+
+        //     Behavior on color {
+        //         ColorAnimation { duration: Config.msAnimationDuration }
+        //     }
+
+        //     Row {
+        //         anchors {
+        //             verticalCenter: parent.verticalCenter
+        //             left: parent.left
+        //             leftMargin: Config.contentMargin
+        //         }
+        //         spacing: 8
+
+        //         Text {
+        //             anchors.verticalCenter: parent.verticalCenter
+        //             text: "󰂱"
+        //             font {
+        //                 family: Fonts.mono
+        //                 pixelSize: 16
+        //             }
+        //             color: row.modelData.connected ? Colors.primaryText : Colors.primary
+        //         }
+
+        //         Text {
+        //             anchors.verticalCenter: parent.verticalCenter
+        //             visible: !row.modelData.paired
+        //             text: "󰌾"
+        //             font {
+        //                 family: Fonts.mono
+        //                 pixelSize: 12
+        //             }
+        //             color: row.modelData.connected ? Colors.primaryText : Colors.primary
+        //         }
+
+        //         Text {
+        //             anchors.verticalCenter: parent.verticalCenter
+        //             text: row.modelData.name || row.modelData.deviceName
+        //             font {
+        //                 family: Fonts.mono
+        //                 pixelSize: 14
+        //                 bold: row.modelData.connected
+        //             }
+        //             color: row.modelData.connected ? Colors.primaryText : Colors.primary
+        //         }
+        //     }
+
+        //     Row {
+        //         anchors {
+        //             verticalCenter: parent.verticalCenter
+        //             right: pbatteryAvailablearent.right
+        //             rightMargin: Config.contentMargin
+        //         }
+        //         spacing: 8
+
+        //         Text {
+        //             anchors.verticalCenter: parent.verticalCenter
+        //             visible: row.modelData.batteryAvailable
+        //             text: BluetoothService.batteryGlyph(row.modelData.battery)
+        //             font {
+        //                 family: Fonts.mono
+        //                 pixelSize: 14
+        //             }
+        //             color: row.modelData.connected ? Colors.primaryText : Colors.primary
+        //         }
+
+        //         Text {
+        //             anchors.verticalCenter: parent.verticalCenter
+        //             visible: row.modelData.pairing || row.modelData.state === BluetoothDeviceState.Connecting || row.modelData.state === BluetoothDeviceState.Disconnecting
+        //             text: "󰔟"
+        //             font {
+        //                 family: Fonts.mono
+        //                 pixelSize: 14
+        //             }
+        //             color: row.modelData.connected ? Colors.primaryText : Colors.primary
+        //         }
+        //     }
+
+        //     MouseArea {
+        //         id: mouseArea
+        //         anchors.fill: parent
+        //         onClicked: BluetoothService.requestConnect(row.modelData)
+        //         hoverEnabled: true
+        //         cursorShape: Qt.PointingHandCursor
+        //     }
+        // }
     }
 }
