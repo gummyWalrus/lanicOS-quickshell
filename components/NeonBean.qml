@@ -2,6 +2,7 @@ import QtQuick
 
 import qs.colors
 import qs.fonts
+import qs.config
 
 // Pill-shaped neon label with an optional icon. Width follows the content unless set.
 // Glow knobs (glowColor, glowRadius, glowStrength, animated) are inherited from NeonRectangle.
@@ -21,6 +22,18 @@ NeonRectangle {
     implicitHeight: content.implicitHeight + verticalPadding * 2
     radius: height / 2
     color: Colors.surface
+
+    Behavior on borderColor {
+        ColorAnimation {
+            duration: Config.msAnimationDuration
+        }
+    }
+
+    Behavior on color {
+        ColorAnimation {
+            duration: Config.msAnimationDuration
+        }
+    }
 
     border {
         color: root.borderColor

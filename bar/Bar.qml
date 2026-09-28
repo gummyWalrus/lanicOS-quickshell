@@ -73,7 +73,6 @@ Scope {
                         verticalCenter: parent.verticalCenter
                     }
 
-                    Component.onCompleted: console.log("loaded item ", bar.modelData.name)
                 }
 
                 Separator {
