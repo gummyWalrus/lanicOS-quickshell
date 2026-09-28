@@ -35,6 +35,7 @@ NeonBean {
             family: Fonts.icon
         }
 
+        glowRadius: button.containsMouse ? 1 : 0
         animated: button.containsMouse
     }
 
