@@ -3,6 +3,7 @@ import QtQuick // for Timer
 import qs.bar
 import qs.settings
 import qs.services
+import qs.widgets
 
 // Entry point: quickshell loads this file first.
 Scope {
@@ -13,5 +14,10 @@ Scope {
         active: WifiService.pendingNetwork !== null
 
         WifiPasswordDialog {}
+
     }
+
+    Launcher {}
+    
+    Clock {}
 }
