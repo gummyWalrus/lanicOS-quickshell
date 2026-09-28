@@ -45,20 +45,21 @@ NeonBean {
         anchors.fill: parent
         hoverEnabled: true
         onClicked: r.showMenu = !r.showMenu
+        cursorShape: Qt.PointingHandCursor
     }
 
     LazyLoader {
         active: r.showMenu
 
         PopupWindow {
-            implicitWidth: menu.implicitWidth
-            implicitHeight: menu.implicitHeight
+            implicitWidth: menu.implicitWidth + 10
+            implicitHeight: menu.implicitHeight + 10
             color: "transparent"
             visible: true
 
             anchor {
                 item: r
-                rect.y: r.height + 8
+                rect.y: r.height
                 edges: Edges.Bottom
                 gravity: Edges.Bottom
                 adjustment: PopupAdjustment.Slide
@@ -75,6 +76,8 @@ NeonBean {
                 implicitHeight: list.implicitHeight + Config.contentMargin * 2
                 color: Colors.surface
 
+                anchors.centerIn: parent
+                
                 border {
                     color: Colors.primary
                     width: 1

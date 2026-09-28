@@ -1,0 +1,4 @@
+module qs.widgets
+
+Clock Clock.qml
+Launcher Launcher.qml

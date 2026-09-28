@@ -15,6 +15,8 @@ NeonRectangle {
         clicked()
     }
 
+    readonly property bool hovered: mouseArea.containsMouse
+
     required property bool selected
 
     property ColorScheme colors: ColorScheme {}
@@ -22,6 +24,8 @@ NeonRectangle {
     property string leftIcons: ""
     property string labelText: ""
     property string rightIcons: ""
+
+    property alias leftItem: leftSlot.data
 
     glowRadius: r.selected || mouseArea.containsMouse ? 6 : 0
 
@@ -66,7 +70,14 @@ NeonRectangle {
             color: r.selected ? r.colors.textSelected : r.colors.text
         }
 
+        Item {
+            id: leftSlot
+            // anchors.right: parent.left
+            width: childrenRect.width; height: childrenRect.height
+        }
+
         Text {
+            id: label
             anchors.verticalCenter: parent.verticalCenter
             text: r.labelText
             font {

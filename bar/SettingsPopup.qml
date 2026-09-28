@@ -12,8 +12,8 @@ LazyLoader {
     active: root.anchorItem.showSettings
 
     PopupWindow {
-        implicitWidth: panel.implicitWidth
-        implicitHeight: panel.implicitHeight
+        implicitWidth: panel.implicitWidth + 10
+        implicitHeight: panel.implicitHeight + 10
         color: "transparent"
         visible: true
 
@@ -23,7 +23,6 @@ LazyLoader {
             edges: Edges.Bottom
             gravity: Edges.Bottom
             adjustment: PopupAdjustment.Slide
-            margins.top: 8
         }
 
         grabFocus: true
@@ -31,6 +30,8 @@ LazyLoader {
 
         SettingsPanel {
             id: panel
+
+            anchors.centerIn: parent
         }
     }
 }

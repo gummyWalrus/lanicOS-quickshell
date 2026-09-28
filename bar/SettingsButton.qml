@@ -53,5 +53,6 @@ NeonBean {
         anchors.fill: parent
         onClicked: r.showSettings = !r.showSettings
         hoverEnabled: true
+        cursorShape: Qt.PointingHandCursor
     }
 }
