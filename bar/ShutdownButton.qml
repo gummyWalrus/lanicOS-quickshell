@@ -10,8 +10,8 @@ import qs.fonts
 import qs.services
 
 // Power icon that opens the session menu (lock, suspend, hibernate, shutdown, reboot).
-Item {
-    id: root
+NeonBean {
+    id: r
 
     property bool showMenu: false
 
@@ -20,18 +20,21 @@ Item {
     implicitWidth: label.implicitWidth + padding * 2
     implicitHeight: label.implicitHeight
 
+    borderColor: showMenu ? Colors.primary : Colors.surface
+    glowRadius: showMenu ? 6 : 0
+    color: showMenu ? Colors.primary : button.containsMouse ? Colors.surfaceContainerHigh : Colors.surface
+        
     TextNeon {
         id: label
 
         anchors.centerIn: parent
         text: ShutdownService.icon
-        color: Colors.primary
+        color: r.showMenu ? Colors.primaryText : Colors.primary
         font {
             pixelSize: 16
             family: Fonts.icon
         }
 
-        glowRadius: button.containsMouse || root.showMenu ? 1 : 0
         animated: button.containsMouse
     }
 
@@ -40,11 +43,11 @@ Item {
 
         anchors.fill: parent
         hoverEnabled: true
-        onClicked: root.showMenu = !root.showMenu
+        onClicked: r.showMenu = !r.showMenu
     }
 
     LazyLoader {
-        active: root.showMenu
+        active: r.showMenu
 
         PopupWindow {
             implicitWidth: menu.implicitWidth
@@ -53,8 +56,8 @@ Item {
             visible: true
 
             anchor {
-                item: root
-                rect.y: root.height + 8
+                item: r
+                rect.y: r.height + 8
                 edges: Edges.Bottom
                 gravity: Edges.Bottom
                 adjustment: PopupAdjustment.Slide
@@ -62,14 +65,14 @@ Item {
             }
 
             grabFocus: true
-            onClosed: root.showMenu = false
+            onClosed: r.showMenu = false
 
-            Rectangle {
+            NeonRectangle {
                 id: menu
 
                 implicitWidth: 180
                 implicitHeight: list.implicitHeight + Config.contentMargin * 2
-                color: Colors.surfaceContainerHigh
+                color: Colors.surface
 
                 border {
                     color: Colors.primary
@@ -83,71 +86,25 @@ Item {
                         fill: parent
                         margins: Config.contentMargin
                     }
-                    spacing: 2
+                    spacing: Config.contentMargin
 
                     Repeater {
                         model: ShutdownService.actions
 
-                        delegate: Column {
+                        delegate: NeonMenuItem {
                             id: entry
 
                             required property var modelData
-
-                            width: list.width
-                            spacing: 2
-
-                            Rectangle {
-                                visible: entry.modelData.separatorBefore
-                                width: parent.width
-                                height: 1
-                                color: Colors.primaryContainer
+                            
+                            onClicked: {
+                                r.showMenu = false;
+                                ShutdownService.run(entry.modelData.id);
                             }
 
-                            Rectangle {
-                                width: parent.width
-                                height: 32
-                                color: entryArea.containsMouse ? Colors.primaryContainer : "transparent"
+                            leftIcons: modelData.icon
+                            labelText: modelData.label
 
-                                Row {
-                                    anchors {
-                                        verticalCenter: parent.verticalCenter
-                                        left: parent.left
-                                        leftMargin: Config.contentMargin
-                                    }
-                                    spacing: 8
-
-                                    Text {
-                                        anchors.verticalCenter: parent.verticalCenter
-                                        text: entry.modelData.icon
-                                        font {
-                                            family: Fonts.icon
-                                            pixelSize: 16
-                                        }
-                                        color: Colors.primary
-                                    }
-
-                                    Text {
-                                        anchors.verticalCenter: parent.verticalCenter
-                                        text: entry.modelData.label
-                                        font {
-                                            family: Fonts.mono
-                                            pixelSize: 14
-                                        }
-                                        color: Colors.primary
-                                    }
-                                }
-
-                                MouseArea {
-                                    id: entryArea
-
-                                    anchors.fill: parent
-                                    hoverEnabled: true
-                                    onClicked: {
-                                        root.showMenu = false
-                                        ShutdownService.run(entry.modelData.id)
-                                    }
-                                }
-                            }
+                            selected: false
                         }
                     }
                 }
