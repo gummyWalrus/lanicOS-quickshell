@@ -14,8 +14,8 @@ Variants {
         required property var modelData
         screen: modelData
 
-        // Put the window under all normal windows
-        WlrLayershell.layer: WlrLayer.Background   // or WlrLayer.Bottom
+        // Under all normal windows but above the wallpaper
+        WlrLayershell.layer: WlrLayer.Bottom
         WlrLayershell.namespace: "desktop-clock"
 
         // Don't reserve space like a bar would
