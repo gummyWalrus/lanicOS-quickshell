@@ -4,6 +4,7 @@ import qs.bar
 import qs.settings
 import qs.services
 import qs.widgets
+import qs.clipboard_history
 
 // Entry point: quickshell loads this file first.
 Scope {
@@ -18,6 +19,8 @@ Scope {
     }
 
     Launcher {}
+
+    ClipboardHistory {}
     
     Clock {}
 }

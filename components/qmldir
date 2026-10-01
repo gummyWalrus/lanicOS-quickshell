@@ -15,5 +15,6 @@ NeonRectangle NeonRectangle.qml
 NeonButton NeonButton.qml
 
 NeonMenuItem NeonMenuItem.qml
+NeonImageMenuItem NeonImageMenuItem.qml
 
 Icon Icon.qml

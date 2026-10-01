@@ -73,7 +73,7 @@ NeonRectangle {
         Item {
             id: leftSlot
             // anchors.right: parent.left
-            width: childrenRect.width; height: childrenRect.height
+            width: childrenRect.width; height: r.height
         }
 
         Text {
