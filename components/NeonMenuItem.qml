@@ -6,7 +6,6 @@ import qs.types
 
 NeonRectangle {
 
-    Component.onCompleted: console.log("BG color is ", colors.background.toString())
     id: r
 
     signal clicked()
