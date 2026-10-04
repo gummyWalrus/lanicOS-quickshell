@@ -14,3 +14,10 @@ singleton DiskService DiskService.qml
 singleton TemperatureService TemperatureService.qml
 singleton KeyboardService KeyboardService.qml
 singleton ShutdownService ShutdownService.qml
+
+
+# For now only in the greeter
+singleton SessionsService SessionsService.qml
+singleton AuthService AuthService.qml
+singleton UsersService UsersService.qml
+singleton GreeterStateService GreeterStateService.qml

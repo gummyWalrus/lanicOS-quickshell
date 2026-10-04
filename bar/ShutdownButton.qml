@@ -14,6 +14,8 @@ NeonBean {
     id: r
 
     property bool showMenu: false
+    // Any object shaped like ShutdownService: icon, actions and run(id)
+    property var service: ShutdownService
 
     readonly property int padding: 16
 
@@ -28,7 +30,7 @@ NeonBean {
         id: label
 
         anchors.centerIn: parent
-        text: ShutdownService.icon
+        text: r.service.icon
         color: r.showMenu ? Colors.primaryText : Colors.primary
         font {
             pixelSize: 16
@@ -93,7 +95,7 @@ NeonBean {
                     spacing: Config.contentMargin
 
                     Repeater {
-                        model: ShutdownService.actions
+                        model: r.service.actions
 
                         delegate: NeonMenuItem {
                             id: entry
@@ -102,7 +104,7 @@ NeonBean {
                             
                             onClicked: {
                                 r.showMenu = false;
-                                ShutdownService.run(entry.modelData.id);
+                                r.service.run(entry.modelData.id);
                             }
 
                             leftIcons: modelData.icon

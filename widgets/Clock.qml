@@ -1,3 +1,4 @@
+pragma ComponentBehavior: Bound
 // shell.qml
 import Quickshell
 import Quickshell.Wayland
@@ -5,10 +6,15 @@ import QtQuick
 
 import qs.fonts
 import qs.colors
+import qs.types
 import qs.components
 
 Variants {
+    id: r
     model: Quickshell.screens          // one clock per monitor
+
+    property Position position: Position {}
+    property int margin: 80
 
     PanelWindow {
         required property var modelData
@@ -27,11 +33,18 @@ Variants {
 
         // Position: anchor + margins (omit anchors to center on screen)
         anchors {
-            bottom: true
-            right: true
-            // margins: 80
+            bottom: r.position.bottom && !r.position.top
+            top: r.position.top && !r.position.bottom
+            right: r.position.right && !r.position.left
+            left: r.position.left && !r.position.right
         }
-        margins { bottom: 80; right: 80 }
+
+        margins {
+            bottom: r.position.bottom ? r.margin : 0;
+            top: r.position.top ? r.margin : 0;
+            right: r.position.right ? r.margin : 0;
+            left: r.position.left ? r.margin : 0;
+        }
 
         implicitWidth: 320
         implicitHeight: 140

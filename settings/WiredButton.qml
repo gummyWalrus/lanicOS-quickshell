@@ -9,7 +9,7 @@ Item {
     LazyLoader {
         active: WiredService.connected
 
-        StateButton {
+        StateButtonNeon {
             anchors.fill: parent
             label: WiredService.label
             icon: WiredService.icon

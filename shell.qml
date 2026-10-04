@@ -22,5 +22,10 @@ Scope {
 
     ClipboardHistory {}
     
-    Clock {}
+    Clock {
+        position {
+            bottom: true
+            right: true
+        }
+    }
 }

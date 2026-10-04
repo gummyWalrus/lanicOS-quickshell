@@ -24,6 +24,8 @@ NeonRectangle {
 
     property string text: ""
 
+    property int fontSize: 14
+
     color: mouseArea.containsMouse ? hoverColor : bgColor
     animated: mouseArea.containsMouse
 
@@ -43,7 +45,7 @@ NeonRectangle {
         color: r.textColor
         font {
             family: Fonts.mono
-            pixelSize: 14
+            pixelSize: r.fontSize
         }
     }
 

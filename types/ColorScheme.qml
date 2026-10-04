@@ -8,4 +8,5 @@ QtObject {
     property color text: Colors.primary
     property color selected: Colors.primary
     property color textSelected: Colors.primaryText
+    property color border: Colors.primary
 }

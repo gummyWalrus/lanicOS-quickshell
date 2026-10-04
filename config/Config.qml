@@ -5,6 +5,7 @@ import Quickshell
 Singleton {
     // Layout properties
     readonly property int contentMargin: 6
+    readonly property int padding: 12
 
     // Settings panel properties
     readonly property int settingsPanelWidth: 400

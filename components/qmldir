@@ -18,3 +18,4 @@ NeonMenuItem NeonMenuItem.qml
 NeonImageMenuItem NeonImageMenuItem.qml
 
 Icon Icon.qml
+IconButton IconButton.qml

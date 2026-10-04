@@ -1,0 +1,14 @@
+module qs.greeter
+
+singleton Power Power.qml
+singleton GreeterConfig GreeterConfig.qml
+
+Wallpaper Wallpaper.qml
+LoginWindow LoginWindow.qml
+StatusBar StatusBar.qml
+Selector Selector.qml
+
+Sessions Sessions.qml
+PowerActions PowerActions.qml
+
+GreeterWarnText GreeterWarnText.qml
