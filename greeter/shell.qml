@@ -1,3 +1,4 @@
+//@ pragma Env QT_IM_MODULE = qtvirtualkeyboard
 import Quickshell
 
 import qs.widgets

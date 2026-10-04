@@ -10,6 +10,9 @@ Singleton {
     property alias user: adapter.user
     property alias session: adapter.session
 
+    // Not persisted, the virtual keyboard starts hidden on every boot
+    property bool virtualKeyboard: false
+
     FileView {
         path: GreeterConfig.stateFile
         onAdapterUpdated: writeAdapter()

@@ -7,6 +7,7 @@ import qs.colors
 import qs.components
 import qs.config
 import qs.services
+import qs.types
 
 // Top right pill reusing the bar's keyboard layout, battery and power menu widgets.
 Variants {
@@ -59,6 +60,21 @@ Variants {
 
                 anchors.centerIn: parent
                 spacing: 8
+
+                ToggleButton {
+                    anchors.verticalCenter: parent.verticalCenter
+                    icon: ""
+                    checked: GreeterStateService.virtualKeyboard
+                    onToggled: checked => GreeterStateService.virtualKeyboard = checked
+
+                    colors: ColorScheme {
+                        background: "transparent"
+                    }
+                }
+
+                Separator {
+                    anchors.verticalCenter: parent.verticalCenter
+                }
 
                 KeyboardLayout {
                     id: keyboard

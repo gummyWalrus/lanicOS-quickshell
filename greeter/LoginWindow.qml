@@ -3,6 +3,7 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
+import QtQuick.VirtualKeyboard
 import Quickshell
 import Quickshell.Wayland
 import Quickshell.Hyprland
@@ -39,9 +40,13 @@ Variants {
         exclusionMode: ExclusionMode.Ignore
         color: "transparent"
 
-        // Room for the glow and the shake
-        implicitWidth: card.implicitWidth + 40
-        implicitHeight: card.implicitHeight + 10
+        readonly property bool showKeyboard: GreeterStateService.virtualKeyboard
+        readonly property int keyboardWidth: Math.min(900, modelData.width - 32)
+        readonly property int keyboardSpacing: 16
+
+        // Room for the glow and the shake, plus the virtual keyboard under the card when shown
+        implicitWidth: Math.max(card.implicitWidth + 40, showKeyboard ? keyboardWidth : 0)
+        implicitHeight: card.implicitHeight + 10 + (showKeyboard ? keyboardSpacing + keyboard.height : 0)
 
         // No anchors = centered on the screen
 
@@ -71,8 +76,12 @@ Variants {
             readonly property int padding: 12
             property real shakeOffset: 0
 
-            anchors.centerIn: parent
-            anchors.horizontalCenterOffset: shakeOffset
+            anchors {
+                top: parent.top
+                topMargin: 5
+                horizontalCenter: parent.horizontalCenter
+                horizontalCenterOffset: shakeOffset
+            }
             implicitWidth: 400
             implicitHeight: body.implicitHeight + padding * 2
             // color: Colors.surface
@@ -247,6 +256,21 @@ Variants {
                         }
                     }
                 }
+            }
+        }
+
+        // Inside this window on purpose: Qt can't use the Wayland input method, so key taps are sent
+        // to the focused Quickshell window, and tapping here keeps the card's window focused.
+        InputPanel {
+            id: keyboard
+
+            visible: window.showKeyboard
+            width: window.keyboardWidth
+
+            anchors {
+                top: card.bottom
+                topMargin: window.keyboardSpacing
+                horizontalCenter: parent.horizontalCenter
             }
         }
     }
