@@ -5,6 +5,7 @@ import QtQuick.Layouts
 import QtQuick.Controls
 import Quickshell
 import Quickshell.Wayland
+import Quickshell.Hyprland
 
 import qs.colors
 import qs.services
@@ -13,213 +14,237 @@ import qs.config
 import qs.fonts
 import qs.types
 
-// Centered login card on the main screen, it owns the keyboard. Escape quits when greetd
-// is missing so `copy-greeter.sh --preview` can be closed.
-PanelWindow {
-    id: window
+// Centered login card on every screen. The one under the cursor grabs the keyboard once at boot,
+// then all cards go OnDemand so the other greeter windows stay clickable.
+// Escape quits when greetd is missing so `copy-greeter.sh --preview` can be closed.
+Variants {
+    id: root
+    model: Quickshell.screens
 
-    screen: GreeterConfig.screen
+    property bool focusSeeded: false
+    // Shared by every card so typing continues when the cursor changes monitor
+    property string draft: ""
 
-    WlrLayershell.layer: WlrLayer.Top
-    WlrLayershell.namespace: "greeter-login"
-    WlrLayershell.keyboardFocus: WlrKeyboardFocus.OnDemand
-    exclusionMode: ExclusionMode.Ignore
-    color: "transparent"
+    PanelWindow {
+        id: window
 
-    // Room for the glow and the shake
-    implicitWidth: card.implicitWidth + 40
-    implicitHeight: card.implicitHeight + 10
+        required property var modelData
+        screen: modelData
 
-    // No anchors = centered on the screen
+        readonly property bool focusedScreen: (Hyprland.focusedMonitor?.name ?? Quickshell.screens[0]?.name) === modelData.name
 
-    function submit() {
-        AuthService.submit(UsersService.current?.name ?? "", SessionsService.current, password.text);
-        password.clear();
-    }
+        WlrLayershell.layer: WlrLayer.Top
+        WlrLayershell.namespace: "greeter-login"
+        WlrLayershell.keyboardFocus: AuthService.available && !root.focusSeeded && focusedScreen ? WlrKeyboardFocus.Exclusive : WlrKeyboardFocus.OnDemand
+        exclusionMode: ExclusionMode.Ignore
+        color: "transparent"
 
-    function restart() {
-        AuthService.cancel();
-        password.clear();
-        password.forceActiveFocus();
-    }
+        // Room for the glow and the shake
+        implicitWidth: card.implicitWidth + 40
+        implicitHeight: card.implicitHeight + 10
 
-    Connections {
-        target: AuthService
+        // No anchors = centered on the screen
 
-        function onRejected() {
-            shake.restart();
+        function submit() {
+            AuthService.submit(UsersService.current?.name ?? "", SessionsService.current, password.text);
+            password.clear();
+        }
+
+        function restart() {
+            AuthService.cancel();
+            password.clear();
             password.forceActiveFocus();
         }
-    }
 
-    Item { // NeonRectangle
-        id: card
+        Connections {
+            target: AuthService
 
-        readonly property int padding: 12
-        property real shakeOffset: 0
-
-        anchors.centerIn: parent
-        anchors.horizontalCenterOffset: shakeOffset
-        implicitWidth: 400
-        implicitHeight: body.implicitHeight + padding * 2
-        // color: Colors.surface
-        // animated: AuthService.busy
-        // opacity: AuthService.launching ? 0 : 1
-
-        // border {
-        //     color: Colors.primaryContainer
-        //     width: 1
-        // }
-
-        Behavior on opacity {
-            NumberAnimation {
-                duration: Config.msAnimationDuration * 2
+            function onRejected() {
+                shake.restart();
+                password.forceActiveFocus();
             }
         }
 
-        SequentialAnimation {
-            id: shake
+        Item { // NeonRectangle
+            id: card
 
-            loops: 2
+            readonly property int padding: 12
+            property real shakeOffset: 0
 
-            NumberAnimation {
-                target: card
-                property: "shakeOffset"
-                to: 12
-                duration: 40
-            }
-            NumberAnimation {
-                target: card
-                property: "shakeOffset"
-                to: -12
-                duration: 80
-            }
-            NumberAnimation {
-                target: card
-                property: "shakeOffset"
-                to: 0
-                duration: 40
-            }
-        }
+            anchors.centerIn: parent
+            anchors.horizontalCenterOffset: shakeOffset
+            implicitWidth: 400
+            implicitHeight: body.implicitHeight + padding * 2
+            // color: Colors.surface
+            // animated: AuthService.busy
+            // opacity: AuthService.launching ? 0 : 1
 
-        Column {
-            id: body
-            spacing: card.padding
-            anchors {
-                fill: parent
-                margins: card.padding
+            // border {
+            //     color: Colors.primaryContainer
+            //     width: 1
+            // }
+
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: Config.msAnimationDuration * 2
+                }
             }
 
-            Selector {
-                id: userSelector
-                icon: ""
-                model: UsersService.list.map(u => u.label)
-                width: parent.width
-                currentIndex: UsersService.currentIndex
-                onActivated: index => {
-                    UsersService.select(index);
-                    window.restart();
+            SequentialAnimation {
+                id: shake
+
+                loops: 2
+
+                NumberAnimation {
+                    target: card
+                    property: "shakeOffset"
+                    to: 12
+                    duration: 40
+                }
+                NumberAnimation {
+                    target: card
+                    property: "shakeOffset"
+                    to: -12
+                    duration: 80
+                }
+                NumberAnimation {
+                    target: card
+                    property: "shakeOffset"
+                    to: 0
+                    duration: 40
+                }
+            }
+
+            Column {
+                id: body
+                spacing: card.padding
+                anchors {
+                    fill: parent
+                    margins: card.padding
                 }
 
-                colors: ColorScheme {
-                    background: Qt.rgba(Colors.surfaceContainerLowest.r, Colors.surfaceContainerLowest.g, Colors.surfaceContainerLowest.b, 0.65)
-                }
-
-                // border.color: hovered ? Colors.primary : Colors.primaryText
-            }
-
-            NeonRectangle {
-                
-                implicitWidth: parent.implicitWidth
-                implicitHeight: userSelector.implicitHeight
-
-                color: Qt.rgba(Colors.surfaceContainerLowest.r, Colors.surfaceContainerLowest.g, Colors.surfaceContainerLowest.b, 0.65) // Colors.surface
-
-                border {
-                    width: 1
-                    color: Colors.primary
-                }
-
-                RowLayout {
-
-                    anchors {
-                        left: parent.left
-                        leftMargin: card.padding
-                        verticalCenter: parent.verticalCenter
+                Selector {
+                    id: userSelector
+                    icon: ""
+                    model: UsersService.list.map(u => u.label)
+                    width: parent.width
+                    currentIndex: UsersService.currentIndex
+                    onActivated: index => {
+                        UsersService.select(index);
+                        window.restart();
                     }
 
-                    id: passwordRow
+                    colors: ColorScheme {
+                        background: Qt.rgba(Colors.surfaceContainerLowest.r, Colors.surfaceContainerLowest.g, Colors.surfaceContainerLowest.b, 0.65)
+                    }
 
-                    implicitWidth: parent.implicitWidth - card.padding
-                    spacing: card.padding
+                    // border.color: hovered ? Colors.primary : Colors.primaryText
+                }
 
-                    TextNeon {
+                NeonRectangle {
+                    
+                    width: parent.width
+                    implicitHeight: userSelector.implicitHeight
 
+                    color: Qt.rgba(Colors.surfaceContainerLowest.r, Colors.surfaceContainerLowest.g, Colors.surfaceContainerLowest.b, 0.65) // Colors.surface
+
+                    border {
+                        width: 1
                         color: Colors.primary
-                        text: AuthService.echo ? "󰈈" : "󰈉"
-                        font {
-                            pixelSize: GreeterConfig.fontSize
-                            family: Fonts.mono
+                    }
+
+                    RowLayout {
+
+                        anchors {
+                            left: parent.left
+                            leftMargin: card.padding
+                            verticalCenter: parent.verticalCenter
                         }
 
-                        glowRadius: mouseArea.containsMouse ? 1 : 0
-                        animated: mouseArea.containsMouse
+                        id: passwordRow
 
-                        MouseArea {
-                            id: mouseArea
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            onClicked: () =>
-                            {
-                                AuthService.echo = !AuthService.echo
-                                console.log("Authservie::echo set to ", AuthService.echo)
+                        width: parent.width - card.padding
+                        spacing: card.padding
+
+                        TextNeon {
+
+                            color: Colors.primary
+                            text: AuthService.echo ? "󰈈" : "󰈉"
+                            font {
+                                pixelSize: GreeterConfig.fontSize
+                                family: Fonts.mono
                             }
-                            cursorShape: Qt.PointingHandCursor
-                        }
-                    }
 
-                    TextField {
-                        id: password
+                            glowRadius: mouseArea.containsMouse ? 1 : 0
+                            animated: mouseArea.containsMouse
 
-                        Layout.fillWidth: true
-                        focus: true
-                        
-                        implicitWidth: card.implicitWidth - login.implicitWidth
-                        enabled: !AuthService.launching
-                        readOnly: AuthService.busy
-                        echoMode: AuthService.echo ? TextInput.Normal : TextInput.Password
-                        inputMethodHints: Qt.ImhSensitiveData | Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase
-                        placeholderText: AuthService.prompt !== "" ? AuthService.prompt : "Password"
-                        onAccepted: window.submit()
-                        Keys.onEscapePressed: AuthService.available ? window.restart() : Qt.quit()
-                        color: Colors.primary
-                        selectionColor: Colors.primary
-                        selectedTextColor: Colors.primaryText
-                        placeholderTextColor: Colors.primaryText
-                        font {
-                            pixelSize: GreeterConfig.fontSize
-                            family: Fonts.mono
+                            MouseArea {
+                                id: mouseArea
+                                anchors.fill: parent
+                                hoverEnabled: true
+                                onClicked: () =>
+                                {
+                                    AuthService.echo = !AuthService.echo
+                                }
+                                cursorShape: Qt.PointingHandCursor
+                            }
                         }
 
-                        background: Rectangle {
-                            color: "transparent" //Qt.rgba(Colors.surfaceContainerLowest.r, Colors.surfaceContainerLowest.g, Colors.surfaceContainerLowest.b, 0.65) // Colors.surface
+                        TextField {
+                            id: password
+
+                            Layout.fillWidth: true
+                            focus: true
+                            
+                            implicitWidth: card.implicitWidth - login.implicitWidth
+                            enabled: !AuthService.launching
+                            readOnly: AuthService.busy
+                            echoMode: AuthService.echo ? TextInput.Normal : TextInput.Password
+                            inputMethodHints: Qt.ImhSensitiveData | Qt.ImhNoPredictiveText | Qt.ImhNoAutoUppercase
+                            placeholderText: AuthService.prompt !== "" ? AuthService.prompt : "Password"
+                            onAccepted: window.submit()
+                            onActiveFocusChanged: if (activeFocus) root.focusSeeded = true
+                            onTextChanged: root.draft = text
+                            Component.onCompleted: text = root.draft
+                            Keys.onEscapePressed: AuthService.available ? window.restart() : Qt.quit()
+
+                            Connections {
+                                target: root
+
+                                function onDraftChanged() {
+                                    if (password.text !== root.draft)
+                                        password.text = root.draft;
+                                }
+                            }
+                            color: Colors.primary
+                            selectionColor: Colors.primary
+                            selectedTextColor: Colors.primaryText
+                            placeholderTextColor: Colors.primaryText
+                            font {
+                                pixelSize: GreeterConfig.fontSize
+                                family: Fonts.mono
+                            }
+
+                            background: Rectangle {
+                                color: "transparent" //Qt.rgba(Colors.surfaceContainerLowest.r, Colors.surfaceContainerLowest.g, Colors.surfaceContainerLowest.b, 0.65) // Colors.surface
+                            }
                         }
-                    }
 
-                    NeonButton {
-                        id: login
+                        NeonButton {
+                            id: login
 
-                        implicitHeight: userSelector.implicitHeight - 2
+                            implicitHeight: userSelector.implicitHeight - 2
 
-                        bgColor: Colors.primary
-                        hoverColor: Colors.primary
-                        textColor: Colors.primaryText
-                        enabled: AuthService.available && !AuthService.busy && SessionsService.current !== null
+                            bgColor: Colors.primary
+                            hoverColor: Colors.primary
+                            textColor: Colors.primaryText
+                            enabled: AuthService.available && !AuthService.busy && SessionsService.current !== null
 
-                        onClicked: window.submit()
+                            onClicked: window.submit()
 
-                        text: "󰅂"
-                        fontSize: 24
+                            text: "󰅂"
+                            fontSize: 24
+                        }
                     }
                 }
             }

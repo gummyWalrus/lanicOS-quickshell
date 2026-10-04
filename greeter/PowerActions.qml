@@ -6,73 +6,82 @@ import qs.config
 import qs.colors
 import qs.components
 
-PanelWindow {
-    id: window
-    // Under all normal windows but above the wallpaper
-    WlrLayershell.layer: WlrLayer.Top
-    WlrLayershell.namespace: "greeter-actions"
+Variants {
+    id: root
+    model: Quickshell.screens
 
-    // Don't reserve space like a bar would
-    exclusionMode: ExclusionMode.Ignore
+    PanelWindow {
+        id: window
 
-    color: "transparent"
+        required property var modelData
+        screen: modelData
 
-    anchors {
-        bottom: true
-    }
+        // Under all normal windows but above the wallpaper
+        WlrLayershell.layer: WlrLayer.Top
+        WlrLayershell.namespace: "greeter-actions"
 
-    margins {
-        bottom: 256
-    }
+        // Don't reserve space like a bar would
+        exclusionMode: ExclusionMode.Ignore
 
-    implicitWidth: rect.implicitWidth + 10
-    implicitHeight: rect.implicitHeight + 10
+        color: "transparent"
 
-    Item {
-        id: rect
+        anchors {
+            bottom: true
+        }
 
-        anchors.centerIn: parent
-        implicitHeight: row.implicitHeight + Config.padding * 2
-        implicitWidth: row.implicitWidth + Config.padding * 2
+        margins {
+            bottom: 256
+        }
 
-        // color: "transparent" // Colors.surface
-        // border {
-        //     width: 1
-        //     color: Colors.primary
-        // }
-        
+        implicitWidth: rect.implicitWidth + 10
+        implicitHeight: rect.implicitHeight + 10
 
-        Row {
-            anchors {
-                left: parent.left
-                leftMargin: Config.padding
-                verticalCenter: parent.verticalCenter
-            }
+        Item {
+            id: rect
 
-            id: row
+            anchors.centerIn: parent
+            implicitHeight: row.implicitHeight + Config.padding * 2
+            implicitWidth: row.implicitWidth + Config.padding * 2
 
-            Repeater {
-                model: Power.actions
+            // color: "transparent" // Colors.surface
+            // border {
+            //     width: 1
+            //     color: Colors.primary
+            // }
+            
 
-                delegate: IconButton {
-                    required property var modelData
+            Row {
+                anchors {
+                    left: parent.left
+                    leftMargin: Config.padding
+                    verticalCenter: parent.verticalCenter
+                }
 
-                    iconName: modelData.iconPath
-                    label: modelData.label
+                id: row
 
-                    bgColor: "transparent" // Colors.surface
+                Repeater {
+                    model: Power.actions
 
-                    iconColor: Colors.primary
-                    hoverIconColor: Colors.primary
+                    delegate: IconButton {
+                        required property var modelData
 
-                    iconSize: 48
+                        iconName: modelData.iconPath
+                        label: modelData.label
 
-                    textColor: Colors.primary
-                    hoverTextColor: Colors.primary
+                        bgColor: "transparent" // Colors.surface
 
-                    hoverColor: Qt.rgba(Colors.surfaceContainerLowest.r, Colors.surfaceContainerLowest.g, Colors.surfaceContainerLowest.b, 0.65)
+                        iconColor: Colors.primary
+                        hoverIconColor: Colors.primary
 
-                    onClicked: Power.run(modelData.id)
+                        iconSize: 48
+
+                        textColor: Colors.primary
+                        hoverTextColor: Colors.primary
+
+                        hoverColor: Qt.rgba(Colors.surfaceContainerLowest.r, Colors.surfaceContainerLowest.g, Colors.surfaceContainerLowest.b, 0.65)
+
+                        onClicked: Power.run(modelData.id)
+                    }
                 }
             }
         }

@@ -4,18 +4,6 @@ import Quickshell
 
 // Greeter-only settings. Shared look and timings still come from qs.config.
 Singleton {
-    // Output name hosting the login card and status pill, empty for the first screen
-    readonly property string mainScreen: ""
-
-    readonly property ShellScreen screen: {
-        const screens = Quickshell.screens;
-        for (let i = 0; i < screens.length; i++) {
-            if (screens[i].name === mainScreen)
-                return screens[i];
-        }
-        return screens.length > 0 ? screens[0] : null;
-    }
-
     // Desktop file basename picked when nothing was remembered yet
     readonly property string defaultSession: "hyprland-uwsm"
     readonly property var sessionDirs: ["/usr/share/wayland-sessions", "/usr/local/share/wayland-sessions"]

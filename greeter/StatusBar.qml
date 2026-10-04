@@ -9,73 +9,79 @@ import qs.config
 import qs.services
 
 // Top right pill reusing the bar's keyboard layout, battery and power menu widgets.
-PanelWindow {
-    screen: GreeterConfig.screen
+Variants {
+    id: root
+    model: Quickshell.screens
 
-    WlrLayershell.namespace: "greeter-status"
-    exclusionMode: ExclusionMode.Ignore
-    color: "transparent"
+    PanelWindow {
+        required property var modelData
+        screen: modelData
 
-    anchors {
-        top: true
-        right: true
-    }
-    margins {
-        top: 12
-        right: 12
-    }
+        WlrLayershell.namespace: "greeter-status"
+        exclusionMode: ExclusionMode.Ignore
+        color: "transparent"
 
-    implicitWidth: pill.implicitWidth + 10
-    implicitHeight: pill.implicitHeight + 10
-
-    NeonRectangle {
-        id: pill
-
-        anchors.centerIn: parent
-        implicitWidth: content.implicitWidth + Config.padding * 2
-        implicitHeight: content.implicitHeight + Config.contentMargin * 2
-        radius: height / 2
-        color: Qt.rgba(Colors.surfaceContainerLowest.r, Colors.surfaceContainerLowest.g, Colors.surfaceContainerLowest.b, 0.65)
-        opacity: AuthService.launching ? 0 : 1
-
-        border {
-            color: Colors.primary
-            width: 1
+        anchors {
+            top: true
+            right: true
+        }
+        margins {
+            top: 12
+            right: 12
         }
 
-        Behavior on opacity {
-            NumberAnimation {
-                duration: Config.msAnimationDuration * 2
-            }
-        }
+        implicitWidth: pill.implicitWidth + 10
+        implicitHeight: pill.implicitHeight + 10
 
-        Row {
-            id: content
+        NeonRectangle {
+            id: pill
 
             anchors.centerIn: parent
-            spacing: 8
+            implicitWidth: content.implicitWidth + Config.padding * 2
+            implicitHeight: content.implicitHeight + Config.contentMargin * 2
+            radius: height / 2
+            color: Qt.rgba(Colors.surfaceContainerLowest.r, Colors.surfaceContainerLowest.g, Colors.surfaceContainerLowest.b, 0.65)
+            opacity: AuthService.launching ? 0 : 1
 
-            KeyboardLayout {
-                id: keyboard
-
-                anchors.verticalCenter: parent.verticalCenter
+            border {
+                color: Colors.primary
+                width: 1
             }
 
-            Separator {
-                anchors.verticalCenter: parent.verticalCenter
-                visible: KeyboardService.available
+            Behavior on opacity {
+                NumberAnimation {
+                    duration: Config.msAnimationDuration * 2
+                }
             }
 
-            Item {
-                anchors.verticalCenter: parent.verticalCenter
-                visible: BatteryService.available
-                implicitWidth: battery.implicitWidth + keyboard.padding * 2
-                implicitHeight: battery.implicitHeight
+            Row {
+                id: content
 
-                Battery {
-                    id: battery
+                anchors.centerIn: parent
+                spacing: 8
 
-                    anchors.centerIn: parent
+                KeyboardLayout {
+                    id: keyboard
+
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+
+                Separator {
+                    anchors.verticalCenter: parent.verticalCenter
+                    visible: KeyboardService.available
+                }
+
+                Item {
+                    anchors.verticalCenter: parent.verticalCenter
+                    visible: BatteryService.available
+                    implicitWidth: battery.implicitWidth + keyboard.padding * 2
+                    implicitHeight: battery.implicitHeight
+
+                    Battery {
+                        id: battery
+
+                        anchors.centerIn: parent
+                    }
                 }
             }
         }

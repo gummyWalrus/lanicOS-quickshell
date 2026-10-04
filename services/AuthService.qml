@@ -22,17 +22,19 @@ Singleton {
     property bool launching: false
 
     property string queued: ""
-    property var launchSession: null
 
     signal rejected()
 
     function submit(user, session, response) {
-        if (!available || launching || busy || !session)
+        if (!available || launching || busy)
             return;
+        if (!session) {
+            fail("No session found");
+            return;
+        }
         failed = false;
         message = "";
         if (Greetd.state === GreetdState.Inactive) {
-            launchSession = session;
             queued = response;
             busy = true;
             Greetd.createSession(user);
@@ -104,9 +106,10 @@ Singleton {
     }
 
     // Lets the fade out finish first, greetd wants the greeter gone right after launch.
+    // The session is read here so a change made during the PAM conversation is honored.
     Timer {
         id: launchTimer
         interval: Config.msAnimationDuration * 2
-        onTriggered: Greetd.launch(SessionsService.command(root.launchSession), SessionsService.environment(root.launchSession))
+        onTriggered: Greetd.launch(SessionsService.command(SessionsService.current), SessionsService.environment(SessionsService.current))
     }
 }
