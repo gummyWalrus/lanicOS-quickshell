@@ -1,15 +1,14 @@
 import QtQuick
 
-import qs.colors
 import qs.config
+import qs.types
 
 // Click or drag anywhere on the track to set a 0.0 - 1.0 value.
 Item {
     id: root
 
     property real value: 0
-    property color fillColor: Colors.primary
-    property color trackColor: Colors.primaryText
+    property ColorScheme colors: ColorScheme {}
 
     signal moved(real value)
 
@@ -26,14 +25,15 @@ Item {
     Rectangle {
         anchors.fill: parent
         radius: height / 2
-        color: root.trackColor
+        color: root.colors.track
 
         NeonRectangle {
             width: parent.width * Math.max(0, Math.min(1, root.value))
             height: parent.height
             radius: height / 2
-            color: root.fillColor
-            glowColor: Colors.primary
+            colors: root.colors
+            color: root.colors.selected
+            border.width: 0
             glowRadius: mouseArea.containsMouse ? 6 : 4
             animated: mouseArea.containsMouse
         }

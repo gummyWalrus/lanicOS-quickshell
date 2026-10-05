@@ -41,12 +41,7 @@ Scope {
 
             NeonRectangle {
                 anchors.fill: parent
-                color: Colors.surface
                 anchors.margins: 5
-                border {
-                    color: Colors.primary
-                    width: 1
-                }
 
                 animated: true
 
@@ -78,13 +73,7 @@ Scope {
                         }
 
                         background : NeonRectangle {
-
-                            color: Colors.surface
-
-                            border {
-                                color: Colors.primaryContainer
-                                width: 1
-                            }
+                            colors.border: Colors.primaryContainer
                         }
                     }
 

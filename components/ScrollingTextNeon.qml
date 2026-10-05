@@ -1,6 +1,7 @@
 import QtQuick
 
 import qs.config
+import qs.types
 
 // ScrollingText whose glyphs carry a neon glow.
 // Height is padded by glowRadius so the halo is not clipped vertically.
@@ -9,7 +10,8 @@ Item {
 
     required property string text
     property font font
-    required property color color
+    property ColorScheme colors: ColorScheme {}
+    property color color: colors.text
     required property real maxWidth
 
     property color glowColor: root.color

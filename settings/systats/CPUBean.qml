@@ -8,8 +8,8 @@ import qs.services
 NeonBeanFilled {
     readonly property bool alert: CPUService.usage > Config.cpuUsageAlertThreshold
 
-    color: alert ? Colors.error : Colors.primary
-    textColor: alert ? Colors.errorText : Colors.primaryText
+    colors.background: alert ? Colors.error : Colors.primary
+    colors.text: alert ? Colors.errorText : Colors.primaryText
     icon: ""
     text: CPUService.usagePercent
     fontSize: 16

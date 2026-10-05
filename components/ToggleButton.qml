@@ -2,7 +2,6 @@ import QtQuick
 
 import qs.config
 import qs.fonts
-import qs.types
 
 // Icon button with an on/off state. checked is owned by the caller: a click emits
 // toggled() with the requested state, so bindings on checked are never broken.
@@ -12,7 +11,6 @@ NeonRectangle {
     property bool checked: false
     property string icon: ""
     property int fontSize: 16
-    property ColorScheme colors: ColorScheme {}
 
     readonly property bool hovered: mouseArea.containsMouse
     readonly property int padding: 8

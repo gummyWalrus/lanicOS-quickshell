@@ -8,8 +8,8 @@ import qs.services
 NeonBeanFilled {
     readonly property bool alert: TemperatureService.temperature > Config.temperatureAlertThreshold
 
-    color: alert ? Colors.error : Colors.primary
-    textColor: alert ? Colors.errorText : Colors.primaryText
+    colors.background: alert ? Colors.error : Colors.primary
+    colors.text: alert ? Colors.errorText : Colors.primaryText
     icon: TemperatureService.icon
     text: Math.round(TemperatureService.temperature) + "°C"
     fontSize: 16

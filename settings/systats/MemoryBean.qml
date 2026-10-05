@@ -8,8 +8,8 @@ import qs.services
 NeonBeanFilled {
     readonly property bool alert: MemoryService.usage > Config.memoryUsageAlertThreshold
 
-    color: alert ? Colors.error : Colors.primary
-    textColor: alert ? Colors.errorText : Colors.primaryText
+    colors.background: alert ? Colors.error : Colors.primary
+    colors.text: alert ? Colors.errorText : Colors.primaryText
     icon: ""
     text: MemoryService.usedFormatted
     fontSize: 16

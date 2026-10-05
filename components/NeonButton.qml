@@ -1,6 +1,5 @@
 import QtQuick
 
-import qs.colors
 import qs.fonts
 import qs.config
 
@@ -17,32 +16,22 @@ NeonRectangle {
     implicitHeight: 30
     // TODO : signal hovered()
 
-    property color hoverColor: Colors.primaryContainer
-    property color bgColor: Colors.surface
-    property color borderColor: Colors.primary
-    property color textColor: Colors.primary
-
     property string text: ""
 
     property int fontSize: 14
 
-    color: mouseArea.containsMouse ? hoverColor : bgColor
+    color: mouseArea.containsMouse ? colors.hover : colors.background
     animated: mouseArea.containsMouse
 
     Behavior on color {
         ColorAnimation { duration: Config.msAnimationDuration }
     }
 
-    border {
-        color: borderColor
-        width: 1
-    }
-
     Text {
         id: textLabel
         anchors.centerIn: parent
         text: r.text
-        color: r.textColor
+        color: r.colors.text
         font {
             family: Fonts.mono
             pixelSize: r.fontSize

@@ -22,16 +22,19 @@ NeonBean {
     implicitWidth: label.implicitWidth + padding * 2
     implicitHeight: label.implicitHeight
 
-    borderColor: showMenu ? Colors.primary : Colors.surface
+    colors.hover: Colors.surfaceContainerHigh
+    colors.border: Colors.surface
+
+    border.color: showMenu ? colors.selected : colors.border
     glowRadius: showMenu ? 6 : 0
-    color: showMenu ? Colors.primary : button.containsMouse ? Colors.surfaceContainerHigh : Colors.surface
+    color: showMenu ? colors.selected : button.containsMouse ? colors.hover : colors.background
         
     TextNeon {
         id: label
 
         anchors.centerIn: parent
         text: r.service.icon
-        color: r.showMenu ? Colors.primaryText : Colors.primary
+        color: r.showMenu ? r.colors.textSelected : r.colors.text
         font {
             pixelSize: 16
             family: Fonts.icon
@@ -76,14 +79,8 @@ NeonBean {
 
                 implicitWidth: 180
                 implicitHeight: list.implicitHeight + Config.contentMargin * 2
-                color: Colors.surface
 
                 anchors.centerIn: parent
-                
-                border {
-                    color: Colors.primary
-                    width: 1
-                }
 
                 Column {
                     id: list

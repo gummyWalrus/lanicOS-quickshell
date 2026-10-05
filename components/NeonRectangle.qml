@@ -1,11 +1,14 @@
 import QtQuick
 
 import qs.config
+import qs.types
 
 // Drop-in Rectangle whose border carries a neon glow, outside and in.
-// color, radius and border behave exactly as on a plain Rectangle.
+// color and border default to the ColorScheme, both stay overridable.
 Rectangle {
     id: root
+
+    property ColorScheme colors: ColorScheme {}
 
     property color glowColor: root.border.color
     property int glowRadius: 6
@@ -19,6 +22,13 @@ Rectangle {
 
     // Multiplied into every layer's opacity, driven by the pulse animation.
     property real pulse: 1.0
+
+    color: colors.background
+
+    border {
+        color: colors.border
+        width: 1
+    }
 
     readonly property int innerLayers: Math.max(0, Math.min(innerGlowRadius, Math.floor(Math.min(width, height) / 2) - 1))
 

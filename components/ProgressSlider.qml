@@ -1,14 +1,13 @@
 import QtQuick
 
-import qs.colors
+import qs.types
 
 // Click or drag anywhere on the track to set a 0.0 - 1.0 value.
 Item {
     id: root
 
     property real value: 0
-    property color fillColor: Colors.primary
-    property color trackColor: Colors.primaryText
+    property ColorScheme colors: ColorScheme {}
 
     signal moved(real value)
 
@@ -21,13 +20,13 @@ Item {
     Rectangle {
         anchors.fill: parent
         radius: height / 2
-        color: root.trackColor
+        color: root.colors.track
 
         Rectangle {
             width: parent.width * Math.max(0, Math.min(1, root.value))
             height: parent.height
             radius: height / 2
-            color: root.fillColor
+            color: root.colors.selected
         }
     }
 

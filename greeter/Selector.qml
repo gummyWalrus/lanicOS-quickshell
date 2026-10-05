@@ -3,11 +3,9 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 
-import qs.colors
 import qs.components
 import qs.config
 import qs.fonts
-import qs.types
 
 // Chip showing the current choice, clicking it opens a neon list of the alternatives.
 NeonRectangle {
@@ -31,7 +29,6 @@ NeonRectangle {
 
 
 
-    property ColorScheme colors: ColorScheme {}
 
     readonly property color roTextColor: showMenu ? colors.textSelected : colors.text
     property string font: Fonts.mono
@@ -175,14 +172,9 @@ NeonRectangle {
 
                 implicitWidth: r.width
                 implicitHeight: list.implicitHeight + Config.contentMargin * 2
-                color: Colors.surface
+                colors.border: r.colors.border
 
                 anchors.centerIn: parent
-
-                border {
-                    color: r.colors.border
-                    width: 1
-                }
 
                 Column {
                     id: list

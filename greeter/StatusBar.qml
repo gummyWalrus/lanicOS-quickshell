@@ -41,13 +41,8 @@ Variants {
             implicitWidth: content.implicitWidth + Config.padding * 2
             implicitHeight: content.implicitHeight + Config.contentMargin * 2
             radius: height / 2
-            color: Qt.rgba(Colors.surfaceContainerLowest.r, Colors.surfaceContainerLowest.g, Colors.surfaceContainerLowest.b, 0.65)
+            colors.background: Qt.rgba(Colors.surfaceContainerLowest.r, Colors.surfaceContainerLowest.g, Colors.surfaceContainerLowest.b, 0.65)
             opacity: AuthService.launching ? 0 : 1
-
-            border {
-                color: Colors.primary
-                width: 1
-            }
 
             Behavior on opacity {
                 NumberAnimation {

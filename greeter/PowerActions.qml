@@ -68,17 +68,10 @@ Variants {
                         iconName: modelData.iconPath
                         label: modelData.label
 
-                        bgColor: "transparent" // Colors.surface
-
-                        iconColor: Colors.primary
-                        hoverIconColor: Colors.primary
-
                         iconSize: 48
 
-                        textColor: Colors.primary
-                        hoverTextColor: Colors.primary
-
-                        hoverColor: Qt.rgba(Colors.surfaceContainerLowest.r, Colors.surfaceContainerLowest.g, Colors.surfaceContainerLowest.b, 0.65)
+                        colors.background: "transparent"
+                        colors.hover: Qt.rgba(Colors.surfaceContainerLowest.r, Colors.surfaceContainerLowest.g, Colors.surfaceContainerLowest.b, 0.65)
 
                         onClicked: Power.run(modelData.id)
                     }

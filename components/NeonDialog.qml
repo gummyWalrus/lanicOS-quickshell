@@ -4,9 +4,9 @@ import QtQuick.Controls
 import Quickshell
 import Quickshell.Wayland
 
-import qs.colors
 import qs.config
 import qs.components
+import qs.types
 
 // Screen centered modal
 PanelWindow {
@@ -15,6 +15,8 @@ PanelWindow {
     default property alias content : contentArea.data
 
     property bool showButtons : true
+
+    property ColorScheme colors: ColorScheme {}
 
     signal accepted ()
     signal rejected ()
@@ -47,7 +49,7 @@ PanelWindow {
 
     Rectangle {
         anchors.fill: parent
-        color: Colors.scrim
+        color: dialog.colors.scrim
         opacity: 0.4
 
         MouseArea {
@@ -62,15 +64,10 @@ PanelWindow {
         anchors.centerIn: parent
         implicitWidth: 340
         implicitHeight: body.implicitHeight + padding * 2
-        color: Colors.surface
+        colors: dialog.colors
         animated: true
         // focus: !dialog.secured
         Keys.onEscapePressed: dialog.cancel()
-
-        border {
-            color: Colors.primary
-            width: 1
-        }
 
         Column {
             id: body
@@ -97,6 +94,7 @@ PanelWindow {
                 
                 NeonButton {
                     implicitHeight: 30
+                    colors: dialog.colors
 
                     onClicked: dialog.reject()
 
@@ -106,9 +104,11 @@ PanelWindow {
                 NeonButton {
                     implicitHeight: 30
 
-                    bgColor: Colors.primary
-                    hoverColor: Colors.primary
-                    textColor: Colors.primaryText
+                    colors: ColorScheme {
+                        background: dialog.colors.selected
+                        hover: dialog.colors.selected
+                        text: dialog.colors.textSelected
+                    }
 
                     onClicked: dialog.accept()
 

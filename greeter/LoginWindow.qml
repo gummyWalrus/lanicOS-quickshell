@@ -155,12 +155,7 @@ Variants {
                     width: parent.width
                     implicitHeight: userSelector.implicitHeight
 
-                    color: Qt.rgba(Colors.surfaceContainerLowest.r, Colors.surfaceContainerLowest.g, Colors.surfaceContainerLowest.b, 0.65) // Colors.surface
-
-                    border {
-                        width: 1
-                        color: Colors.primary
-                    }
+                    colors.background: Qt.rgba(Colors.surfaceContainerLowest.r, Colors.surfaceContainerLowest.g, Colors.surfaceContainerLowest.b, 0.65)
 
                     RowLayout {
 
@@ -177,7 +172,6 @@ Variants {
 
                         TextNeon {
 
-                            color: Colors.primary
                             text: AuthService.echo ? "󰈈" : "󰈉"
                             font {
                                 pixelSize: GreeterConfig.fontSize
@@ -244,9 +238,11 @@ Variants {
 
                             implicitHeight: userSelector.implicitHeight - 2
 
-                            bgColor: Colors.primary
-                            hoverColor: Colors.primary
-                            textColor: Colors.primaryText
+                            colors: ColorScheme {
+                                background: Colors.primary
+                                hover: Colors.primary
+                                text: Colors.primaryText
+                            }
                             enabled: AuthService.available && !AuthService.busy && SessionsService.current !== null
 
                             onClicked: window.submit()

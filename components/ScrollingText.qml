@@ -1,6 +1,7 @@
 import QtQuick
 
 import qs.config
+import qs.types
 
 // Displays text at a fixed maxWidth, scrolling it back and forth
 // when the content doesn't fit, then restarting from the beginning.
@@ -9,7 +10,8 @@ Item {
 
     required property string text
     property font font
-    required property color color
+    property ColorScheme colors: ColorScheme {}
+    property color color: colors.text
     required property real maxWidth
 
     readonly property bool overflowing: label.implicitWidth > root.maxWidth

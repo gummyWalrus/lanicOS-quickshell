@@ -12,28 +12,21 @@ NeonRectangle {
 
     property string iconName: ""
     property string label: ""
-    // Transparent keeps the icon's own colors
-    property color iconColor: "transparent"
-    property color hoverIconColor: "transparent"
-    
-    property color textColor: "transparent"
-    property color hoverTextColor: "transparent"
-
-    property color bgColor: "transparent"
-    property color hoverColor: "transparent"
+    // false keeps the icon's own colors
+    property bool tintIcon: true
 
     property int iconSize: 64
     
     implicitWidth: Math.max(content.implicitWidth, content.implicitHeight) + Config.padding * 2
     implicitHeight: implicitWidth
 
-    color: mouseArea.containsMouse ? hoverColor : bgColor
+    color: mouseArea.containsMouse ? colors.hover : colors.background
 
     glowRadius: mouseArea.containsMouse ? 6 : 0
 
     border {
         width: 1
-        color: mouseArea.containsMouse ? iconColor : "transparent"
+        color: mouseArea.containsMouse ? colors.border : "transparent"
     }
 
     Behavior on color {
@@ -59,12 +52,12 @@ NeonRectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             size: r.iconSize
 
-            // Brightness first turns the icon white so colorization lands exactly on iconColor
-            layer.enabled: r.iconColor.a > 0
+            // Brightness first turns the icon white so colorization lands exactly on colors.text
+            layer.enabled: r.tintIcon
             layer.effect: MultiEffect {
                 brightness: 1.0
                 colorization: 1.0
-                colorizationColor: r.iconColor
+                colorizationColor: r.colors.text
             }
         }
 
@@ -72,7 +65,7 @@ NeonRectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             visible: r.label !== ""
             text: r.label
-            color: mouseArea.containsMouse ? r.hoverTextColor : r.textColor
+            colors: r.colors
 
             font {
                 family: Fonts.mono

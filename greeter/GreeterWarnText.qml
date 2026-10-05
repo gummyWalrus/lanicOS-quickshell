@@ -40,7 +40,7 @@ Variants {
         TextNeon {
             id: errorText
             text: AuthService.available ? AuthService.message : "greetd is not running"
-            color: AuthService.failed || !AuthService.available ? Colors.error : Colors.primary
+            colors.text: AuthService.failed || !AuthService.available ? Colors.error : Colors.primary
             horizontalAlignment: Text.AlignHCenter
             wrapMode: Text.Wrap
             glowRadius: 0

@@ -1,6 +1,5 @@
 import QtQuick
 
-import qs.colors
 import qs.fonts
 import qs.config
 
@@ -11,8 +10,6 @@ NeonRectangle {
 
     property string icon: ""
     property string text: ""
-    property color borderColor: Colors.primary
-    property color textColor: Colors.primary
     property int fontSize: 14
 
     readonly property int horizontalPadding: 12
@@ -21,9 +18,8 @@ NeonRectangle {
     implicitWidth: content.implicitWidth + horizontalPadding * 2
     implicitHeight: content.implicitHeight + verticalPadding * 2
     radius: height / 2
-    color: Colors.surface
 
-    Behavior on borderColor {
+    Behavior on border.color {
         ColorAnimation {
             duration: Config.msAnimationDuration
         }
@@ -33,11 +29,6 @@ NeonRectangle {
         ColorAnimation {
             duration: Config.msAnimationDuration
         }
-    }
-
-    border {
-        color: root.borderColor
-        width: 1
     }
 
     Row {
@@ -50,7 +41,7 @@ NeonRectangle {
             anchors.verticalCenter: parent.verticalCenter
             visible: root.icon !== ""
             text: root.icon
-            color: root.textColor
+            color: root.colors.text
             font {
                 family: Fonts.mono
                 pixelSize: root.fontSize
@@ -61,7 +52,7 @@ NeonRectangle {
             anchors.verticalCenter: parent.verticalCenter
             visible: root.text !== ""
             text: root.text
-            color: root.textColor
+            color: root.colors.text
             font {
                 family: Fonts.mono
                 pixelSize: root.fontSize

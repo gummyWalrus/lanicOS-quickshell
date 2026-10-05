@@ -2,7 +2,6 @@ import QtQuick
 
 import qs.config
 import qs.fonts
-import qs.types
 
 NeonRectangle {
 
@@ -17,8 +16,6 @@ NeonRectangle {
     readonly property bool hovered: mouseArea.containsMouse
 
     required property bool selected
-
-    property ColorScheme colors: ColorScheme {}
 
     property string leftIcons: ""
     property string labelText: ""

@@ -2,10 +2,16 @@ pragma ComponentBehavior: Bound
 
 import QtQuick
 
+import qs.types
+
 // Drop-in Text whose glyphs carry a neon glow.
-// text, font, color and alignment behave exactly as on a plain Text.
+// color defaults to the ColorScheme text, the rest behaves as on a plain Text.
 Text {
     id: root
+
+    property ColorScheme colors: ColorScheme {}
+
+    color: colors.text
 
     property color glowColor: root.color
     property int glowRadius: 1

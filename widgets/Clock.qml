@@ -5,7 +5,6 @@ import Quickshell.Wayland
 import QtQuick
 
 import qs.fonts
-import qs.colors
 import qs.types
 import qs.components
 
@@ -61,7 +60,6 @@ Variants {
             TextNeon {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: Qt.formatDateTime(clock.date, "hh:mm")
-                color: Colors.primary
                 font {
                     pixelSize: 72
                     family: Fonts.orbitron
@@ -71,7 +69,6 @@ Variants {
             TextNeon {
                 anchors.horizontalCenter: parent.horizontalCenter
                 text: Qt.formatDateTime(clock.date, "dddd d MMMM")
-                color: Colors.primary
                 font {
                     family: Fonts.orbitron
                     pixelSize: 20

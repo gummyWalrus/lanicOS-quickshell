@@ -1,7 +1,6 @@
 import QtQuick
 
 import qs.fonts
-import qs.colors
 import qs.components
 import qs.config
 
@@ -20,21 +19,12 @@ NeonRectangle {
     readonly property int padding: 12
 
     animated: mouseArea.containsMouse
-    border {
-        color: Colors.primary
-        width: 1
-    }
 
     Behavior on color {
         ColorAnimation { duration: Config.msAnimationDuration }
     }
 
-    color: {
-        if (activated) {
-            return Colors.primary
-        }
-        mouseArea.containsMouse ? Colors.primaryContainer : Colors.surface
-    }
+    color: activated ? colors.selected : mouseArea.containsMouse ? colors.hover : colors.background
 
     Row {
         id: content
@@ -55,7 +45,7 @@ NeonRectangle {
                 family: Fonts.mono
                 pixelSize: 24
             }
-            color: r.activated ? Colors.primaryText : Colors.primary
+            color: r.activated ? r.colors.textSelected : r.colors.text
         }
 
         ScrollingText {
@@ -66,7 +56,7 @@ NeonRectangle {
                 family: Fonts.mono
                 pixelSize: 16
             }
-            color: r.activated ? Colors.primaryText : Colors.primary
+            color: r.activated ? r.colors.textSelected : r.colors.text
             maxWidth: r.width - r.padding * 2 - icon.implicitWidth - content.spacing - (menuToggle.visible ? menuToggle.width : 0)
         }
     }
@@ -92,7 +82,7 @@ NeonRectangle {
                 family: Fonts.mono
                 pixelSize: 16
             }
-            color: r.activated ? Colors.primaryText : Colors.primary
+            color: r.activated ? r.colors.textSelected : r.colors.text
 
             Behavior on rotation {
                 NumberAnimation { duration: Config.msAnimationDuration }

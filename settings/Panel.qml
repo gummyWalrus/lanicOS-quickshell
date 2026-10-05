@@ -1,5 +1,4 @@
 import QtQuick
-import qs.colors
 import qs.config
 import qs.components
 import qs.settings.systats
@@ -14,12 +13,6 @@ NeonRectangle {
 
     implicitWidth: Config.settingsPanelWidth
     implicitHeight: Config.settingsPanelHeight
-    color: Colors.surface
-
-    border {
-        color: Colors.primary
-        width: 1
-    }
 
     Column {
         id: content
@@ -95,7 +88,7 @@ NeonRectangle {
     Rectangle {
         anchors.fill: parent
         visible: panel.openMenu !== null
-        color: Colors.scrim
+        color: panel.colors.scrim
         opacity: 0.4
 
         MouseArea {

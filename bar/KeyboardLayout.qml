@@ -3,7 +3,6 @@ pragma ComponentBehavior: Bound
 import QtQuick
 import Quickshell
 
-import qs.colors
 import qs.components
 import qs.config
 import qs.fonts
@@ -30,7 +29,6 @@ Item {
         TextNeon {
             anchors.verticalCenter: parent.verticalCenter
             text: KeyboardService.label
-            color: Colors.primary
             font {
                 pixelSize: 16
                 family: Fonts.mono
@@ -44,7 +42,6 @@ Item {
         TextNeon {
             anchors.verticalCenter: parent.verticalCenter
             text: KeyboardService.icon
-            color: Colors.primary
             font {
                 pixelSize: 16
                 family: Fonts.icon
@@ -97,14 +94,8 @@ Item {
 
                 implicitWidth: 160
                 implicitHeight: list.implicitHeight + Config.contentMargin * 2
-                color: Colors.surface
-                
-                anchors.centerIn: parent
 
-                border {
-                    color: Colors.primary
-                    width: 1
-                }
+                anchors.centerIn: parent
 
                 Column {
                     id: list

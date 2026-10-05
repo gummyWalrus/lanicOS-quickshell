@@ -14,10 +14,13 @@ NeonBean {
     implicitWidth: content.implicitWidth + padding * 2
     implicitHeight: content.implicitHeight
 
-    borderColor: showSettings ? Colors.primary : Colors.surface
+    colors.hover: Colors.surfaceContainerHigh
+    colors.border: Colors.surface
+
+    border.color: showSettings ? colors.selected : colors.border
 
     glowRadius: showSettings ? 6 : 0
-    color: showSettings ? Colors.primary : button.containsMouse ? Colors.surfaceContainerHigh : Colors.surface
+    color: showSettings ? colors.selected : button.containsMouse ? colors.hover : colors.background
     animated: showSettings
 
     Row {
@@ -28,7 +31,7 @@ NeonBean {
 
         TextNeon {
             anchors.verticalCenter: parent.verticalCenter
-            color: r.showSettings ? Colors.primaryText : Colors.primary
+            color: r.showSettings ? r.colors.textSelected : r.colors.text
             font {
                 pixelSize: 16
                 family: Fonts.icon
@@ -44,7 +47,7 @@ NeonBean {
             hovered: button.containsMouse
             anchors.verticalCenter: parent.verticalCenter
 
-            colors.text: r.showSettings ? Colors.primaryText : Colors.primary
+            colors.text: r.showSettings ? r.colors.textSelected : r.colors.text
         }
     }
 
